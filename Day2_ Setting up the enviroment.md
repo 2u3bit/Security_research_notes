@@ -24,7 +24,7 @@
 
 - Download the Windows 11 development environment VM from Microsoft
 - Unzip the file and double-click on the .ova file
-- Customize to preferable appliance setting (Disk-size etc)
+- Customize to preferable appliance setting (Disk-size, etc)
 > Note: default is sufficient
 - Create a host-only adaptor. you will need it after the FLARE-VM installation.
 - Download the FLARE-VM on Win 11
