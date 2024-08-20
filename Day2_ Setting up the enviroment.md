@@ -26,7 +26,7 @@
 - Unzip the file and double-click on the .ova file
 - Customize to preferable appliance setting (Disk-size, etc)
 > Note: default is sufficient
-- Create a host-only adaptor. you will need it after the FLARE-VM installation.
+- Create a host-only adaptor (you will need it after the FLARE-VM installation)
 - Download the FLARE-VM on Win 11
 > Note: Take the snapshot of your VM and then install the FLARE-VM 
 
