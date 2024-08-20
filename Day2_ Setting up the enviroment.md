@@ -1,7 +1,7 @@
-# Day 2: Setting up the Enviroment
+# Day 2: Setting up the environment
 ** Tools we will be using **:
 - Hypervisor - VirtualBox or VMware
-- Windows 10 VM 64 bit preferable.
+- Windows 10 VM 64-bit preferable.
 - FLARE VM - Windows malware analysis distribution >>  Comes prepackaged with all the tools we need for malware analysis.
 
 
