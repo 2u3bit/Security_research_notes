@@ -42,11 +42,7 @@
 # References: 
 
 ■ [How You Can Start Learning Malware Analysis | SANS Institute!](https://www.sans.org/blog/how-you-can-start-learning-malware-analysis/)
-
 <br>
-
 ■ [Practical Malware Analysis Essentials for Incident Responders](https://www.youtube.com/watch?v=20xYpxe8mBg&feature=emb_title)
-
 <br>
-
 ■ [Practical Malware Analysis Essentials for Incident Responders](https://www.youtube.com/watch?v=20xYpxe8mBg&feature=emb_title)
