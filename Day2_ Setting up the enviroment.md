@@ -46,7 +46,7 @@
 
 # References: 
 
-■ [Windows 11 development environment](https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/)
+■ [Get a Windows 11 development environment](https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/)
 <br>
 ■ [Download FLARE-VM from the official Repository](https://github.com/mandiant/flare-vm)
 <br>
