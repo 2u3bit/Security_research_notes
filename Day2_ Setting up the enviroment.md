@@ -46,10 +46,6 @@
 
 # References: 
 
-■ [How You Can Start Learning Malware Analysis | SANS Institute!](https://www.sans.org/blog/how-you-can-start-learning-malware-analysis/)
-<br>
-■ [Practical Malware Analysis Essentials for Incident Responders](https://www.youtube.com/watch?v=20xYpxe8mBg&feature=emb_title)
-<br>
 ■ [Windows 11 development environment](https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/)
 <br>
 ■ [Download FLARE-VM from the official Repository](https://github.com/mandiant/flare-vm)
