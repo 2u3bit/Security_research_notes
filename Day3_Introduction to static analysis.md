@@ -85,10 +85,6 @@ If an analyst determines through static analysis that the executable will launch
 ## Toolkits
 Here are some essential tools for conducting static malware analysis:
 
-### Table 3.2 Tools Used for Static Analysis of Malware
-
-### Table 3.2 Tools Used for Static Analysis of Malware
-
 | Tool’s Name                                                                  | Functionality of the Tools                                                                                     |
 |------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
 | [Exeinfo PE](http://www.exeinfo.xn.pl/)                                      | Retrieves information from Windows PE headers. The file signature also determines if the executable has been packed and indicates how to unpack it. |
