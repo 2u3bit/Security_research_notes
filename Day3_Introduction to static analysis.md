@@ -32,7 +32,7 @@ Static malware analysis involves several steps aimed at understanding the charac
 
 These steps form a comprehensive approach to static malware analysis, allowing analysts to extract as much information as possible without executing the malware. This method is crucial for understanding the virus’s potential impact and preparing defenses against it.
 
-# Static analysis flow
+## Static analysis flow
 
 
 **Identifying the File Type**:<br>
@@ -80,7 +80,7 @@ Here are some essential tools for conducting static malware analysis:
 | **[MalAPI.io](https://malapi.io/)** | An online resource for exploring Windows API functions. Useful for understanding the capabilities of the malware. |
 
 
-# References: 
+## References: 
 ■ [Best Practices for Using Static Analysis Tools](https://www.parasoft.com/blog/best-practices-for-using-static-analysis-tools/)
 <br>
 ■ [A Static Approach for Malware Analysis: A Guide to Analysis Tools and Techniques](https://www.researchgate.net/publication/377011413_A_Static_Approach_for_Malware_Analysis_A_Guide_to_Analysis_Tools_and_Techniques)
