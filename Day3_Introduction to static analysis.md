@@ -85,13 +85,29 @@ If an analyst determines through static analysis that the executable will launch
 ## Toolkits
 Here are some essential tools for conducting static malware analysis:
 
-| **Toolkit**       | **Comment**                                                                                       |
-| ----------------- | ------------------------------------------------------------------------------------------------- |
-| **[VirusTotal](https://www.virustotal.com/gui/home/upload)** | Online tool to scan files and URLs with multiple antivirus engines. Useful for initial detection and analysis. |
-| **[PEstudio](https://www.varonis.com/blog/pestudio)**      | A tool for analyzing PE files. It provides detailed information about PE headers, imports/exports, and other critical metadata. |
-| **[HxD](https://mh-nexus.de/en/downloads.php?product=HxD20)** | A powerful hex editor for examining the raw contents of binary files. |
-| **[Floss](https://github.com/mandiant/flare-floss/releases)** | A tool from Mandiant for extracting obfuscated strings from malware. Useful for revealing hidden strings. |
-| **[MalAPI.io](https://malapi.io/)** | An online resource for exploring Windows API functions. Useful for understanding the capabilities of the malware. |
+### Table 3.2 Tools Used for Static Analysis of Malware
+
+### Table 3.2 Tools Used for Static Analysis of Malware
+
+| Tool’s Name                                                                  | Functionality of the Tools                                                                                     |
+|------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
+| [Exeinfo PE](http://www.exeinfo.xn.pl/)                                      | Retrieves information from Windows PE headers. The file signature also determines if the executable has been packed and indicates how to unpack it. |
+| [HashMyFiles](https://www.nirsoft.net/utils/hash_my_files.html) / [HashCalc](https://www.slavasoft.com/hashcalc/index.htm) | Generates various hashes such as MD5, SHA-1, SHA-256, RIPEMD 560, CRC32, TIGER, SHA-256, PANAMA, etc. |
+| [Strings](https://learn.microsoft.com/en-us/sysinternals/downloads/strings)  | PowerShell or CMD strings can extract all strings in ASCII and UNICODE.                                       |
+| [UPX](https://upx.github.io/)                                                | UPX tool can pack and unpack an EXE file using CFF Explorer or PEstudio. One can identify if the malware is packed with UPX or not. |
+| [Pestudio](https://www.winitor.com/)                                         | Provides a comprehensive amount of information extraction tools, file type, arch, PE headers, strings, hashes. |
+| [DIE (Detect It Easy)](https://github.com/horsicq/Detect-It-Easy)            | Detect It Easy is a packer identifier that helps in defining file types.                                       |
+| [Resource Hacker](http://www.angusj.com/resourcehacker/)                     | Functions as a resource compiler and decompiler, allowing viewing and modifying of resources in executables and compiled resource libraries. |
+| [Wireshark](https://www.wireshark.org/)                                      | Enables detailed packet examination of numerous protocols at various layers.                                   |
+| [PEiD](https://www.aldeid.com/wiki/PEiD)                                     | An application used to find malware that is packed or encrypted.                                               |
+| [PEview](https://wjradburn.com/software/)                                    | Provides details on Portable Executable (PE) file headers and their sections.                                  |
+| [PE Explorer](https://www.heaventools.com/overview.htm)                      | Displays the PE's content and organizational structure. It can also be used as a file unpacker for packed files. |
+| [CFF Explorer](https://ntcore.com/?page_id=388)                              | Developed to make PE editing as simple as possible while maintaining awareness of the internal organization of the portable executable. |
+| [Yara Rules](https://virustotal.github.io/yara/)                             | Records malware issue categories based only on patterns.                                                       |
+| [Dependency Walker](http://www.dependencywalker.com/)                        | Detects missing files, invalid files, mismatched CPU types of modules, and circular dependency errors.         |
+| [HxD Hex Editor](https://mh-nexus.de/en/hxd/)                                | Designed to display both the ASCII interpretation and the file's raw hexadecimal format.                       |
+| [BinText](https://www.mcafee.com/enterprise/en-us/downloads/free-tools/bintext.html) | A tool that can search through and display character strings in a binary file.                                 |
+
 
 ---
 
@@ -99,4 +115,6 @@ Here are some essential tools for conducting static malware analysis:
 ■ [Best Practices for Using Static Analysis Tools](https://www.parasoft.com/blog/best-practices-for-using-static-analysis-tools/)
 <br>
 ■ [A Static Approach for Malware Analysis: A Guide to Analysis Tools and Techniques](https://www.researchgate.net/publication/377011413_A_Static_Approach_for_Malware_Analysis_A_Guide_to_Analysis_Tools_and_Techniques)
+<br>
+■ [PeStudio Overview: Setup, Tutorial and Tips](https://www.varonis.com/blog/pestudio
 <br>
