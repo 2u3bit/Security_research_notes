@@ -9,26 +9,19 @@ The primary goal is to gather preliminary information that gives us an idea of t
 
 Static malware analysis involves several steps aimed at understanding the characteristics and behavior of malware without executing it. Below are the key steps in this process:
 
-**Obtain a Malware Sample**  
-- This can be done through various methods, such as downloading it from a website, accessing a public repository, or extracting it from an infected machine.
+**a) Obtain a Malware Sample**: This can be done through various methods, such as downloading it from a website, accessing a public repository, or extracting it from an infected machine.
 
-**File Analysis**  
-- This step involves examining the file’s attributes, including its type, size, creation date, and other metadata to gather preliminary information about the malware.
+**b) File Analysis**: This step involves examining the file’s attributes, including its type, size, creation date, and other metadata to gather preliminary information about the malware.
 
-**Disassembly**  
-- Disassembling the binary code reveals the underlying machine code and assembly language instructions. This process helps to uncover the malware's capabilities and behavior.
+**c) Disassembly**: Disassembling the binary code reveals the underlying machine code and assembly language instructions. This process helps to uncover the malware's capabilities and behavior.
 
-**Strings Extraction**  
-- Extract readable strings from the binary code to identify crucial information such as file paths, network addresses, and API calls. These strings can provide insights into the malware’s operations.
+**d) Strings Extraction**: Extract readable strings from the binary code to identify crucial information such as file paths, network addresses, and API calls. These strings can provide insights into the malware’s operations.
 
-**Signature Analysis**  
-- Compare the program’s code against known malware signatures. This can help identify the malware’s family and predict its behavior based on existing knowledge.
+**e) Signature Analysis** Compare the program’s code against known malware signatures. This can help identify the malware’s family and predict its behavior based on existing knowledge.
 
-**Decompilation**  
-- Convert the machine code back into a higher-level programming language like Python or C. This step aids in understanding the malware’s functionality and code structure.
+**f) Decompilation**: Convert the machine code back into a higher-level programming language like Python or C. This step aids in understanding the malware’s functionality and code structure.
 
-**Reverse Engineering**  
-- This involves a deeper analysis of the malware’s code to determine its payload, potential harmful behavior, and overall functionality. Reverse engineering can reveal the actions the malware is designed to perform.<br>
+**g) Reverse Engineering**: This involves a deeper analysis of the malware’s code to determine its payload, potential harmful behavior, and overall functionality. Reverse engineering can reveal the actions the malware is designed to perform.<br>
 
 These steps form a comprehensive approach to static malware analysis, allowing analysts to extract as much information as possible without executing the malware. This method is crucial for understanding the virus’s potential impact and preparing defenses against it.
 
