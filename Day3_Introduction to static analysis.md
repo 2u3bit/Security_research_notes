@@ -56,6 +56,7 @@ These steps form a comprehensive approach to static malware analysis, allowing a
 
 ## Static Analysis Techniques
 
+
 | **Static Analysis**       | **Comment**                                                                                   |
 | ------------------------- | -------------------------------------------------------------------------------------------------- |
 | **File Type**             | Determine the file format by checking its magic number. For instance, "MZ" indicates a .exe file. |
