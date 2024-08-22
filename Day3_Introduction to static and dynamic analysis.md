@@ -184,5 +184,4 @@ Here are some essential tools for conducting static malware analysis:
 <br>
 ■ [A Static Approach for Malware Analysis: A Guide to Analysis Tools and Techniques](https://www.researchgate.net/publication/377011413_A_Static_Approach_for_Malware_Analysis_A_Guide_to_Analysis_Tools_and_Techniques)
 <br>
-■ [PeStudio Overview: Setup, Tutorial and Tips](https://www.varonis.com/blog/pestudio)
-<br>
+■ [How You Can Start Learning Malware Analysis | SANS Institute!](https://www.sans.org/blog/how-you-can-start-learning-malware-analysis/)
