@@ -174,7 +174,7 @@ Here are some essential tools for conducting static malware analysis:
 | [ProcDot](https://procdot.com/)                                  | Generates visual representations of process and API call relationships.                                              |
 | [ProcMon](https://learn.microsoft.com/en-us/sysinternals/downloads/procmon)     | Monitors and logs system activity including file system, registry, and process/thread activity.                     |
 | [Ghidra](https://ghidra-sre.org/)                                               | Software reverse engineering suite developed by NSA, used for analyzing executable files.                           |
-| [APIMonitor](https://www.rohitab.com/apimonitor)                                | Monitors API calls made by a process.                                                                               |
+| [APIMonitor](http://www.rohitab.com/apimonitor)                                | Monitors API calls made by a process.                                                                               |
 | [Regshot](https://sourceforge.net/projects/regshot/)                            | Takes snapshots of the Windows registry and compares them to detect changes.                                        |
 
 ---
