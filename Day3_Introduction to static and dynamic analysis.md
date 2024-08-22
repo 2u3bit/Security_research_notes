@@ -144,11 +144,7 @@ Some examples of advanced attacks that may overcome dynamic analysis include:
 results in a higher detection rate for sophisticated malware threats. However, teams must consider that some threat actors have developed programs meant to overcome dynamic analysis methods.
 As you can see, sandboxing is not a foolproof solution to malware threats. Knowing when and how to use a sandbox under certain conditions is crucial to the effectiveness of dynamic malware analysis. Be sure to scan files individually to avoid contamination, and create processes to avoid security bottlenecks.
 
-## Toolkits
-Here are some essential tools for conducting static malware analysis:
-
 ## Toolkits for Static Malware Analysis
-
 Here are some essential tools for conducting static malware analysis:
 
 | Tool’s Name                                                                     | Functionality of the Tools                                                                                         |
