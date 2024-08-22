@@ -42,11 +42,31 @@ These steps form a comprehensive approach to static malware analysis, allowing a
 
 **Strings Analysis**:<br>
 - Extract and analyze strings within the malware file. Strings can provide a glimpse into the malware's functionality, such as potential commands, URLs, file paths, or error messages.
+
 **Packing & Obfuscation Detection**: <br>
 - Identify if the malware uses packing or obfuscation techniques, which are methods to conceal its true nature and evade detection. If packing or obfuscation is detected, attempt to unpack or deobfuscate the malware to reveal hidden information.
 
 **PE Headers Analysis**: <br>
 - Examine the Portable Executable (PE) headers containing metadata about the file. This information can reveal a lot about the malware's capabilities, such as entry points, imported libraries, and resources.
+
+### Sections of a PE File
+
+The following are the most typical and important sections of a PE file:
+
+| **Sr. No.** | **Executable** | **Function**                                                                                                 |
+|-------------|----------------|-------------------------------------------------------------------------------------------------------------|
+| 1           | **.text**       | This is where the executable code is stored.                                                                |
+| 2           | **.rdata**      | This section contains globally accessible read-only data.                                                   |
+| 3           | **.data**       | Stores global information accessed by the software.                                                         |
+| 4           | **.rsrc**       | This section comprises the resources that the executable needs.                                             |
+| 5           | **.idata**      | Stores information about import functions and, if not found in this section, will be found in the `.rdata` section. |
+| 6           | **.reloc**      | Gathers data for the relocation of library files.                                                           |
+| 7           | **.edata**      | Stores information about export functions and, if not found in this section, will be found in the `.rdata` section. |
+
+---
+
+If an analyst determines through static analysis that the executable will launch a process, and if the following `exec` and `sleep` commands are discovered, but no information regarding the corresponding DLL—which includes a function to connect with another server—is found, the executable and the resource are both hidden. To learn more about the malware, use a program like Resource Hacker to open the `—src` part of the PE file.
+
 
 <br>
 
