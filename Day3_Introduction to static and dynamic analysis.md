@@ -148,25 +148,35 @@ As you can see, sandboxing is not a foolproof solution to malware threats. Knowi
 ## Toolkits
 Here are some essential tools for conducting static malware analysis:
 
-| Tool’s Name                                                                  | Functionality of the Tools                                                                                     |
-|------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
-| [Exeinfo PE](http://www.exeinfo.xn.pl/)                                      | Retrieves information from Windows PE headers. The file signature also determines if the executable has been packed and indicates how to unpack it. |
-| [HashMyFiles](https://www.nirsoft.net/utils/hash_my_files.html) / [HashCalc](https://www.slavasoft.com/hashcalc/index.htm) | Generates various hashes such as MD5, SHA-1, SHA-256, RIPEMD 560, CRC32, TIGER, SHA-256, PANAMA, etc. |
-| [Strings](https://learn.microsoft.com/en-us/sysinternals/downloads/strings)  | PowerShell or CMD strings can extract all strings in ASCII and UNICODE.                                       |
-| [UPX](https://upx.github.io/)                                                | UPX tool can pack and unpack an EXE file using CFF Explorer or PEstudio. One can identify if the malware is packed with UPX or not. |
-| [Pestudio](https://www.winitor.com/)                                         | Provides a comprehensive amount of information extraction tools, file type, arch, PE headers, strings, hashes. |
-| [DIE (Detect It Easy)](https://github.com/horsicq/Detect-It-Easy)            | Detect It Easy is a packer identifier that helps in defining file types.                                       |
-| [Resource Hacker](http://www.angusj.com/resourcehacker/)                     | Functions as a resource compiler and decompiler, allowing viewing and modifying of resources in executables and compiled resource libraries. |
-| [Wireshark](https://www.wireshark.org/)                                      | Enables detailed packet examination of numerous protocols at various layers.                                   |
-| [PEiD](https://www.aldeid.com/wiki/PEiD)                                     | An application used to find malware that is packed or encrypted.                                               |
-| [PEview](https://wjradburn.com/software/)                                    | Provides details on Portable Executable (PE) file headers and their sections.                                  |
-| [PE Explorer](https://www.heaventools.com/overview.htm)                      | Displays the PE's content and organizational structure. It can also be used as a file unpacker for packed files. |
-| [CFF Explorer](https://ntcore.com/?page_id=388)                              | Developed to make PE editing as simple as possible while maintaining awareness of the internal organization of the portable executable. |
-| [Yara Rules](https://virustotal.github.io/yara/)                             | Records malware issue categories based only on patterns.                                                       |
-| [Dependency Walker](http://www.dependencywalker.com/)                        | Detects missing files, invalid files, mismatched CPU types of modules, and circular dependency errors.         |
-| [HxD Hex Editor](https://mh-nexus.de/en/hxd/)                                | Designed to display both the ASCII interpretation and the file's raw hexadecimal format.                       |
-| [BinText](https://www.mcafee.com/enterprise/en-us/downloads/free-tools/bintext.html) | A tool that can search through and display character strings in a binary file.                                 |
+## Toolkits for Static Malware Analysis
 
+Here are some essential tools for conducting static malware analysis:
+
+| Tool’s Name                                                                     | Functionality of the Tools                                                                                         |
+|---------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
+| [Exeinfo PE](http://www.exeinfo.xn.pl/)                                         | Retrieves information from Windows PE headers. Determines if the executable is packed and indicates how to unpack it. |
+| [HashMyFiles](https://www.nirsoft.net/utils/hash_my_files.html) / [HashCalc](https://www.slavasoft.com/hashcalc/index.htm) | Generates various hashes such as MD5, SHA-1, SHA-256, RIPEMD, CRC32, TIGER, PANAMA, etc.                           |
+| [Strings](https://learn.microsoft.com/en-us/sysinternals/downloads/strings)     | Extracts all strings in ASCII and UNICODE from PowerShell or CMD.                                                   |
+| [UPX](https://upx.github.io/)                                                   | Packs and unpacks EXE files. Helps identify if the malware is packed with UPX.                                      |
+| [Pestudio](https://www.winitor.com/)                                            | Provides comprehensive information extraction tools, including file type, PE headers, strings, and hashes.          |
+| [DIE (Detect It Easy)](https://github.com/horsicq/Detect-It-Easy)               | Identifies packers and defines file types.                                                                         |
+| [Resource Hacker](http://www.angusj.com/resourcehacker/)                        | Resource compiler and decompiler, allowing viewing and modification of resources in executables and compiled libraries. |
+| [Wireshark](https://www.wireshark.org/)                                         | Detailed packet examination of numerous protocols at various layers.                                                 |
+| [PEiD](https://www.aldeid.com/wiki/PEiD)                                        | Finds malware that is packed or encrypted.                                                                         |
+| [PEview](https://wjradburn.com/software/)                                       | Provides details on Portable Executable (PE) file headers and sections.                                              |
+| [PE Explorer](https://www.heaventools.com/overview.htm)                         | Displays PE content and structure. Can also be used as a file unpacker for packed files.                            |
+| [CFF Explorer](https://ntcore.com/?page_id=388)                                 | Simplifies PE editing while maintaining awareness of the portable executable's internal organization.              |
+| [Yara Rules](https://virustotal.github.io/yara/)                                | Records malware issue categories based on patterns.                                                                 |
+| [Dependency Walker](http://www.dependencywalker.com/)                           | Detects missing files, invalid files, mismatched CPU types of modules, and circular dependency errors.              |
+| [HxD Hex Editor](https://mh-nexus.de/en/hxd/)                                   | Displays both ASCII interpretation and the file's raw hexadecimal format.                                           |
+| [BinText](https://www.mcafee.com/enterprise/en-us/downloads/free-tools/bintext.html) | Searches and displays character strings in a binary file.                                                           |
+| [IDA - The Interactive Disassembler](https://hex-rays.com/products/ida/support/idadoc/index.shtml) | Disassembles machine-executable code into assembly language source code. Supports various executable formats.       |
+| [x32dbg & x64dbg](https://x64dbg.com/)                                          | Open-source binary debuggers for Windows, aimed at malware analysis and reverse engineering of executables.         |
+| [ProcDot](https://github.com/mwrlabs/ProcDot)                                  | Generates visual representations of process and API call relationships.                                              |
+| [ProcMon](https://learn.microsoft.com/en-us/sysinternals/downloads/procmon)     | Monitors and logs system activity including file system, registry, and process/thread activity.                     |
+| [Ghidra](https://ghidra-sre.org/)                                               | Software reverse engineering suite developed by NSA, used for analyzing executable files.                           |
+| [APIMonitor](https://www.rohitab.com/apimonitor)                                | Monitors API calls made by a process.                                                                               |
+| [Regshot](https://sourceforge.net/projects/regshot/)                            | Takes snapshots of the Windows registry and compares them to detect changes.                                        |
 
 ---
 
