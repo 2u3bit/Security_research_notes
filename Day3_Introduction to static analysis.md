@@ -28,12 +28,11 @@ Static malware analysis involves several steps aimed at understanding the charac
 - Convert the machine code back into a higher-level programming language like Python or C. This step aids in understanding the malware’s functionality and code structure.
 
 **Reverse Engineering**  
-- This involves a deeper analysis of the malware’s code to determine its payload, potential harmful behavior, and overall functionality. Reverse engineering can reveal the actions the malware is designed to perform.
+- This involves a deeper analysis of the malware’s code to determine its payload, potential harmful behavior, and overall functionality. Reverse engineering can reveal the actions the malware is designed to perform.<br>
 
 These steps form a comprehensive approach to static malware analysis, allowing analysts to extract as much information as possible without executing the malware. This method is crucial for understanding the virus’s potential impact and preparing defenses against it.
 
 ## Static analysis flow
-
 
 **Identifying the File Type**:<br>
 - Determine the target operating system (OS), architecture (e.g., x86, x64), and format (e.g., .dll, .exe) of the malware. This helps in understanding the environment in which the malware operates.
@@ -49,6 +48,7 @@ These steps form a comprehensive approach to static malware analysis, allowing a
 **PE Headers Analysis**: <br>
 - Examine the Portable Executable (PE) headers containing metadata about the file. This information can reveal a lot about the malware's capabilities, such as entry points, imported libraries, and resources.
 
+<br>
 
 ![Static-malware-analysis-workflow_W640](https://github.com/user-attachments/assets/67b36b7c-4252-4be3-b13f-e7884d5b9d37)
 >  Content was uploaded by Aaron Zimba on Research Gate.
