@@ -1,4 +1,4 @@
-# Static Analysis: 
+# Static Analysis of Malware: 
 **Overview**: <br>
 Static analysis involves examining malware without executing it. This method focuses on extracting useful information directly from the malware file, which helps in forming an initial understanding of the malware's type and potential capabilities. The insights gained from static analysis are invaluable for guiding further, more detailed analysis.
 
