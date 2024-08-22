@@ -7,7 +7,7 @@ The primary goal is to gather preliminary information that gives us an idea of t
 
 <br>
 
-### Steps Involved in Static Malware Analysis
+## Steps Involved in Static Malware Analysis
 
 Static malware analysis involves several steps aimed at understanding the characteristics and behavior of malware without executing it. Below are the key steps in this process:
 
