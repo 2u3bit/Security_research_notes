@@ -82,6 +82,69 @@ If an analyst determines through static analysis that the executable will launch
 
 ---
 
+# Dynamic Analysis of Malware
+Dynamic malware analysis is a pivotal technique in modern cybersecurity. Unlike static analysis, which examines the content of files and programs for potentially malicious content, dynamic analysis involves executing the potentially malicious code in a controlled environment. This allows security analysts to observe and understand the malware’s behavior in real-time, providing deeper insights into threats that static analysis might miss.
+
+Dynamic analysis provides valuable insights into the behavior of the malware and its impact on the system, which can be used to develop defenses. By combining static and dynamic analysis, researchers can gain a comprehensive understanding of the malware's behavior and its potential impact.
+
+## How dynamic malware analysis works
+After a suspicious file is flagged and the threat is sequestered in a sandbox, the code is detonated and dynamic malware analysis begins. Dynamic malware analysis uses a behavior-based approach to understand potential threats, so making observations and logging any actions the program makes both inside and outside the sandbox environment is essential.
+
+Malware detonated in a sandbox environment is kept safely away from mission-critical storage and systems, while also remaining active in the analysis system environment. This is important because the program can run its course in the analysis environment, allowing analysts to gain as much information as possible about the purpose and actions of the malware.
+
+Some of the information that dynamic malware analysis can reveal include:
+
+- File system changes
+- Registry changes
+- Application security changes
+- Network settigns changes
+- Firewall changes
+- Writes to memory
+- Process creation / termination / injection
+- SSDT, IDT, IRP hooks
+- Executed API instructions
+- Network connections
+- Detection evasion attempts
+
+Context, intent and behaviors are all features unique to different types of malware. Seeing the program execute its functions in real time helps teams understand the kind of threats they are up against and how they can protect their systems from similar attacks.
+
+## Benefits of Dynamic Malware Analysis
+Dynamic malware analysis offers threat hunters deeper visibility into potential malware threats than static analysis alone. Static analysis is good for discovering known code injections, but fails to provide insights into more sophisticated malware threats. Dynamic analysis helps teams uncover the true nature of threats and can be automated for speedy discovery.
+
+A recent report states that 62% of organizations have understaffed cybersecurity teams, putting a strain on incident responders and investigators. With less staff, there is more pressure to act quickly when it comes to understanding and patching new threats. However, this often leads to costly mistakes and a more superficial understanding of system vulnerabilities.
+
+Here are some of the benefits of using dynamic malware analysis to uncover malware threats:
+
+- Identifies threats in a secure environment
+- Automated tools can be programmed to scan for specific events and behaviors
+- Analyze applications without access to code
+- Identify false negatives left by static analysis
+- Validates static analysis reports
+- Detects known and unknown threats
+- Detects persistent malware threats
+- Aids in the understanding of program capabilities
+- Identifies malware intent
+- Helps teams understand unique TTPs of attackers
+- Identifies both IOCs and IoAs
+- Avoid future breaches and security incidents
+
+## Challenges and Limitation
+Dynamic malware analysis is an extremely helpful tool for SOC analysts, threat hunters and security teams, but there are a few challenges and limitations to understand before deploying a dynamic malware analysis tool.
+
+Threat actors are typically very tech-savvy. They know what sandboxes are and they sometimes detect a sandbox environment within a target system. Armed with this knowledge, adversaries can work to deceive the sandbox technology by planting code inside that remains dormant until certain conditions are met. They can then mess with reports, further infect the system, and carry out advanced attacks.
+
+Some examples of advanced attacks that may overcome dynamic analysis include:
+
+- Context-aware malware
+- Malware that detects sandboxes
+- Malware that exploits sandboxes
+- Delayed-attack malware
+- Dynamic malware analysis is still recommended over static analysis since it 
+
+results in a higher detection rate for sophisticated malware threats. But it is important that teams consider that some threat actors have developed programs meant to overcome dynamic analysis methods.
+
+As you can see, sandboxing is not a foolproof solution to malware threats. Knowing when and how to use a sandbox under certain conditions is crucial to the effectiveness of dynamic malware analysis. Be sure to scan files individually to avoid contamination, and create processes to avoid security bottlenecks.
+---
 ## Toolkits
 Here are some essential tools for conducting static malware analysis:
 
