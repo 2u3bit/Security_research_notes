@@ -153,7 +153,7 @@ Here are some essential tools for conducting static malware analysis:
 
 | Tool’s Name                                                                     | Functionality of the Tools                                                                                         |
 |---------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
-| [Exeinfo PE](http://www.exeinfo.xn.pl/)                                         | Retrieves information from Windows PE headers. Determines if the executable is packed and indicates how to unpack it. |
+| [Exeinfo PE](https://www.thewindowsclub.com/exeinfo-pe-information-from-executable-files)                                         | Retrieves information from Windows PE headers. Determines if the executable is packed and indicates how to unpack it. |
 | [HashMyFiles](https://www.nirsoft.net/utils/hash_my_files.html) / [HashCalc](https://www.slavasoft.com/hashcalc/index.htm) | Generates various hashes such as MD5, SHA-1, SHA-256, RIPEMD, CRC32, TIGER, PANAMA, etc.                           |
 | [Strings](https://learn.microsoft.com/en-us/sysinternals/downloads/strings)     | Extracts all strings in ASCII and UNICODE from PowerShell or CMD.                                                   |
 | [UPX](https://upx.github.io/)                                                   | Packs and unpacks EXE files. Helps identify if the malware is packed with UPX.                                      |
@@ -171,7 +171,7 @@ Here are some essential tools for conducting static malware analysis:
 | [BinText](https://www.mcafee.com/enterprise/en-us/downloads/free-tools/bintext.html) | Searches and displays character strings in a binary file.                                                           |
 | [IDA - The Interactive Disassembler](https://hex-rays.com/products/ida/support/idadoc/index.shtml) | Disassembles machine-executable code into assembly language source code. Supports various executable formats.       |
 | [x32dbg & x64dbg](https://x64dbg.com/)                                          | Open-source binary debuggers for Windows, aimed at malware analysis and reverse engineering of executables.         |
-| [ProcDot](https://github.com/mwrlabs/ProcDot)                                  | Generates visual representations of process and API call relationships.                                              |
+| [ProcDot](https://procdot.com/)                                  | Generates visual representations of process and API call relationships.                                              |
 | [ProcMon](https://learn.microsoft.com/en-us/sysinternals/downloads/procmon)     | Monitors and logs system activity including file system, registry, and process/thread activity.                     |
 | [Ghidra](https://ghidra-sre.org/)                                               | Software reverse engineering suite developed by NSA, used for analyzing executable files.                           |
 | [APIMonitor](https://www.rohitab.com/apimonitor)                                | Monitors API calls made by a process.                                                                               |
