@@ -87,6 +87,7 @@ If an analyst determines through static analysis that the executable will launch
 | **Function (Imports/Exports)** | Investigate imported and exported functions to gain insights into the malware's potential actions and interactions. |
 | **Strings**               | Extract and analyze embedded strings to uncover clues such as IP addresses, URLs, file paths, and function names. |
 
+---
 
 ## Toolkits
 Here are some essential tools for conducting static malware analysis:
@@ -99,6 +100,7 @@ Here are some essential tools for conducting static malware analysis:
 | **[Floss](https://github.com/mandiant/flare-floss/releases)** | A tool from Mandiant for extracting obfuscated strings from malware. Useful for revealing hidden strings. |
 | **[MalAPI.io](https://malapi.io/)** | An online resource for exploring Windows API functions. Useful for understanding the capabilities of the malware. |
 
+---
 
 ## References: 
 ■ [Best Practices for Using Static Analysis Tools](https://www.parasoft.com/blog/best-practices-for-using-static-analysis-tools/)
