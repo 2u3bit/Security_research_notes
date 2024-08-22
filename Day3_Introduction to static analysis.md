@@ -57,7 +57,6 @@ Here are some essential tools for conducting static malware analysis:
 
 
 
-
 # References: 
 
 ■ [Best Practices for Using Static Analysis Tools](https://www.parasoft.com/blog/best-practices-for-using-static-analysis-tools/)
