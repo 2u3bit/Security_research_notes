@@ -54,7 +54,7 @@ These steps form a comprehensive approach to static malware analysis, allowing a
 >  Content was uploaded by Aaron Zimba on Research Gate.
 
 
-**Static Analysis Techniques**: <br>
+## Static Analysis Techniques
 
 | **Static Analysis**       | **Comment**                                                                                   |
 | ------------------------- | -------------------------------------------------------------------------------------------------- |
@@ -67,8 +67,7 @@ These steps form a comprehensive approach to static malware analysis, allowing a
 | **Strings**               | Extract and analyze embedded strings to uncover clues such as IP addresses, URLs, file paths, and function names. |
 
 
-**Toolkits**: <br>
-
+## Toolkits
 Here are some essential tools for conducting static malware analysis:
 
 | **Toolkit**       | **Comment**                                                                                       |
