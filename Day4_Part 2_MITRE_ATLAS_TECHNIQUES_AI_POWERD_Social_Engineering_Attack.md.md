@@ -32,7 +32,9 @@ While traditional social engineering relies on exploiting human psychology by im
 
 - The finance and insurance industry faced 27.8% of overall phishing attacks, marking the highest concentration among industries and a 393% year-over-year increase.
 
+> ![image](https://github.com/user-attachments/assets/ab3358bc-2dce-4fcf-8c8d-63119c0897ec)
 
+<br>
 
 
 
