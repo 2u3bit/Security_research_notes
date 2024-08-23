@@ -32,9 +32,9 @@ While traditional social engineering relies on exploiting human psychology by im
 
 > ![image](https://github.com/user-attachments/assets/ab3358bc-2dce-4fcf-8c8d-63119c0897ec)
 
-<br>
+<be>
 
-![image](https://github.com/user-attachments/assets/6d5f9b3e-ecc8-4ad6-b67b-08a0109fa3e1)
+> ![image](https://github.com/user-attachments/assets/6d5f9b3e-ecc8-4ad6-b67b-08a0109fa3e1)
 
 
 
