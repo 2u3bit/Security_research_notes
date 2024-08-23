@@ -1,4 +1,4 @@
-# Day 4: MITRE ATT&CK TECHNIQUES: **PHISHING**
+# Day 4: MITRE ATT&CK TECHNIQUES: **PHISHING** - Part 1
 Adversaries may send victims emails containing malicious attachments or links, typically designed to execute malicious code on the victim's system. 
 
 Phishing can also be conducted via third-party services, such as social media platforms. Additionally, phishing may involve social engineering techniques, like posing as a trusted source, and evasive techniques, such as removing or manipulating emails or metadata/headers from compromised accounts being abused to send messages. 
