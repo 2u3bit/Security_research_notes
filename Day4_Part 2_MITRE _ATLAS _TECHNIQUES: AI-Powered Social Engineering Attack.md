@@ -4,7 +4,7 @@ Social engineering tricks individuals into disclosing confidential information o
 
 AI can craft highly personalized scams, generate convincing fake identities, and even engage in realistic conversations using chatbots.
 
-Imagine receiving a video call from your CEO, urgently instructing you to transfer funds to a new account to finalize a crucial business deal. Everything—from the voice and mannerisms to the background—appears entirely genuine.
+Imagine receiving a phone call from your CEO, urgently instructing you to transfer funds to a new account to finalize a crucial business deal. Everything—from the voice and mannerisms to the background—appears entirely genuine.
 
 In reality, this is not your CEO but a highly sophisticated deepfake created by cyber criminals using artificial intelligence. This scenario exemplifies a rising threat in cybersecurity: AI-driven social engineering attacks.
 
