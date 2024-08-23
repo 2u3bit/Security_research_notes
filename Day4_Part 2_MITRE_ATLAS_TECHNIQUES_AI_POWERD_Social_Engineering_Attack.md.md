@@ -26,7 +26,11 @@ While traditional social engineering relies on exploiting human psychology by im
 
 - The US, UK, India, Canada, and Germany were the top five countries targeted by phishing attacks.
 
-![image](https://github.com/user-attachments/assets/493d21e5-745f-4ea5-b617-e614e084816d)
+> ![image](https://github.com/user-attachments/assets/493d21e5-745f-4ea5-b617-e614e084816d)
+
+<br>
+
+- The finance and insurance industry faced 27.8% of overall phishing attacks, marking the highest concentration among industries and a 393% year-over-year increase.
 
 
 
