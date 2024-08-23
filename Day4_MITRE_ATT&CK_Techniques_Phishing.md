@@ -8,32 +8,32 @@ Another tactic used by adversaries is forging or spoofing the identity of the se
 ## What is social engineering?
 Social engineering is any manipulation technique that exploits human behavior and error to gain access to sensitive or confidential information. While some scammers might steal someone’s personal information, social engineers convince their victims to willingly hand over the requested information, such as usernames and passwords.
 
+Phishing scams are the most common type of social engineering attack. They typically take the form of an email that looks as if it is from a legitimate source. Sometimes, attackers will attempt to coerce the victim into giving away credit card information or other personal data. At other times, phishing emails are sent to obtain employee login information or other details for use in an advanced attack against their company. Cybercrime attacks such as [Advanced Persistent Threat (APT)](https://www.cisco.com/c/en/us/products/security/advanced-persistent-threat.html) and [Ransomware](https://www.cisco.com/site/us/en/learn/topics/security/what-is-ransomware.html#tabs-35d568e0ff-item-194f491212-tab) often start with phishing attempts.
 
-![image](https://github.com/user-attachments/assets/d41b79ba-ed3a-4f69-a247-0400ef831e7a)
+Other examples of phishing you might come across are spear phishing, which targets specific individuals instead of a wide group of people, and whaling, which targets high-profile executives or the C-suite.
 
-
-
-
-
+In recent times, attackers have been taking advantage of the growth in software as a service (SaaS), such as Microsoft 365. These phishing campaigns usually take the form of a fake email that claims to be from Microsoft. The email contains a request for the user to log in and reset their password because they haven't logged in recently or claims there is a problem with the account that needs their attention. The URL is included, enticing the user to click and remedy the issue.
 
 
 
+## Anti-Phishing Guidelines and Recommendations for Organizations
 
-
-
-
-
-
-
-
-
-
-
-
+| **Main Categories**                  | **Guidelines**                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+|--------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Follow Security Policies**         | - Implement access control.<br>- Implement endpoint security.<br>- Use DMARC email authentication.<br>- Set up and enforce password protection policies.<br>- Implement web tripwires.<br>- Implement administrative multifactor authentication (e.g., Microsoft Multi-Factor Authentication).<br>- Use firewalls, updated antivirus programs, email blockers, and browser extensions.<br>- Use host-based intrusion detection systems (HIDS).<br>- Follow vendor’s security manuals.<br>- Implement Backup Strategies.<br>- Update computer hardware and software periodically.<br>- Develop and budget for life-cycle management to retire devices that cannot be replaced right away.<br>- Maintain a regularly updated inventory of all devices on the network (authorized and unauthorized).<br>- Develop a patching policy that minimizes equipment downtime.<br>- Verify all incoming calls for authority.<br>- Do not share any information unless the contact made by the other person was expected. |
+| **Use Training and Awareness Programs** | - Use embedded training for better education; display training material as soon as a mistake is made.<br>- Develop on-site and personal device physical security awareness.<br>- Conduct on-site anti-phishing training, quizzes for evaluation, and virtual labs for education.<br>- Use virtual learning tools, simulations for training, and gamification approaches.<br>- Use deception cues-based training for effectiveness in diverse deceptive contexts.<br>- Use human-centered design (HCD) for cyber training development.<br>- Use web platforms to improve cognitive processes during phishing detection.<br>- Use self-explanatory training material that provides context.<br>- Use CRI (Cybersecurity Risk Index) to determine the necessary training for employees.<br>- Actively phish users and provide short, easy-to-read training material when they get caught.<br>- Never ask employees for secure behavior unless it is feasible in their work environment. |
+| **Implement Policies for Devices**   | - Develop a patching policy that minimizes equipment downtime.<br>- Evaluate the expected lifetime of devices before purchase.<br>- Create a policy that enables timely updates through collaboration with external manufacturers and internal stakeholders.                                                                                                                                                                                                                                                     |
+| **Protect Productivity and Engage Employees** | - Respect and engage employees.<br>- Protect productivity.<br>- Adapt company policy to include specific security and anti-phishing training, especially for high-risk users.<br>- Implement a reporting protocol.<br>- Create secure routines.<br>- Exchange potential threats, indicators of compromise, and best practices in-house.                                                                                                                                                                                                 |
+| **General Recommendations**          | - Implement a Standard Solution (SS) where multiple sets of guidelines are written by a qualified person and can be reused.<br>- Create privacy-conscious data sharing and processing.<br>- Hire cybersecurity professionals.<br>- Verify all incoming calls for authority and do not share any information unless expected.                                                                                                                                                                                                                |
+| **For Board Members**                | - Build secure routines.<br>- Develop meaningful metrics (e.g., training completion rates, staff clicking on phishing emails).<br>- Practice secure behaviors.<br>- Purchase a standard security awareness package.                                                                                                                                                                                                                                                                                         |
+| **For CISOs**                        | - Find low-friction solutions.<br>- Focus on secure routines for employees.<br>- Understand that changing behaviors in cybersecurity requires long-term planning and resources.<br>- Ensure staff feel secure, connected, and optimistic about their future.                                                                                                                                                                                                                                             |
+| **For Executives**                   | - Create low-friction solutions and integrate security into business processes.<br>- Encourage staff to participate in security.<br>- Lead by example.<br>- Bring together different skills and capabilities.                                                                                                                                                                                                                                                                                              |
+| **For Security Professionals**       | - Be approachable and helpful.<br>- Use respectful language.                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| **For Security Awareness Specialists**| - Conduct constant evaluations to determine what works and what does not.<br>- Identify which groups need specific awareness and training, and determine the best delivery methods.                                                                                                                                                                                                                                                                                                                       |
+---
 
 # Resource
-[Social engineering](https://www.microsoft.com/en-us/microsoft-365-life-hacks/privacy-and-safety/what-is-social-engineering?msockid=19dba958fccb6dd6182dbd54fd836cb6)
+[Social engineering](https://www.microsoft.com/en-us/microsoft-365-life-hacks/privacy-and-safety/what-is-social-engineering?msockid=19dba958fccb6dd6182dbd54fd836cb6) <br>
+[Mitigation strategies against the phishing attacks](https://www.sciencedirect.com/science/article/pii/S0167404823002973) <br>
 
-[Advanced Persistent Threat (APT)](https://www.cisco.com/c/en/us/products/security/advanced-persistent-threat.html)
 
-[Ransomware](https://www.cisco.com/site/us/en/learn/topics/security/what-is-ransomware.html#tabs-35d568e0ff-item-194f491212-tab)
