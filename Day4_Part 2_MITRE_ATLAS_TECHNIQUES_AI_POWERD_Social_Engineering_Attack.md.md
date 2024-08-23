@@ -37,6 +37,7 @@ While traditional social engineering relies on exploiting human psychology by im
 <br>
 - Microsoft remains the most frequently imitated brand, with 43.1% of phishing attempts targeting it.
 
+> ![image](https://github.com/user-attachments/assets/8d14f8c5-6f86-4dab-827a-233a14408c00)
 
 
 
