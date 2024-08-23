@@ -28,27 +28,34 @@ While traditional social engineering relies on exploiting human psychology by im
 
 > ![image](https://github.com/user-attachments/assets/493d21e5-745f-4ea5-b617-e614e084816d)
 
-<br>
+## Spotlight on AI-Enabled Phishing Threats
 
-- The finance and insurance industry faced 27.8% of overall phishing attacks, marking the highest concentration among industries and a 393% year-over-year increase.
+**GenAI** has significantly boosted productivity across various industries, but it also brings a serious downside: it empowers even novice cybercriminals to become skilled social engineers and sophisticated phishing attackers.
 
-> ![image](https://github.com/user-attachments/assets/ab3358bc-2dce-4fcf-8c8d-63119c0897ec)
+By automating and customizing different stages of the attack process, AI enhances phishing tactics, making them faster, more refined, and increasingly difficult to detect.
 
-<br>
-- Microsoft remains the most frequently imitated brand, with 43.1% of phishing attempts targeting it.
+GenAI can rapidly analyze publicly available data, including information about organizations and their leadership, reducing the time required for reconnaissance and enabling highly targeted attacks. **LLM chatbots** create precise and convincing phishing messages, eliminating the usual telltale signs like spelling and grammar errors. Additionally, GenAI can quickly generate realistic phishing websites. The ThreatLabz report highlights how ChatGPT produced a phishing login page in less than 10 prompts, offering key indicators to help identify phishing attempts.
 
-> ![image](https://github.com/user-attachments/assets/8d14f8c5-6f86-4dab-827a-233a14408c00)
+AI has blurred the boundaries between genuine and fraudulent content, making it even harder to distinguish between legitimate communications and phishing schemes.
 
+### Mitigating Phishing Risks with Zero Trust
 
+In response to the growing threat landscape, it's crucial for organizations to adapt their security strategies to defend against the latest phishing tactics. One highly effective approach is to establish a foundation based on **Zero Trust Architecture**. This method has proven successful in addressing both traditional and AI-enhanced phishing attacks.
 
+The following insights and strategies are recommended for mitigating these risks:
 
-
-
-
-
-
-
+| **Mitigation Strategy**                                       | **Description**                                                                                                                                                                  |
+|---------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Fighting AI with AI**                                        | Utilize AI-powered phishing prevention tools that are specifically designed to counter AI-driven threats. This includes features like browser isolation to prevent phishing page exploitation. |
+| **Zero Trust Architecture Advantages**                        | Implement a Zero Trust Architecture to safeguard against phishing at various stages of the attack chain.                                                                         |
+| **Prevent Compromise**                                       | Employ TLS/SSL inspection at scale, AI-powered browser isolation, and policy-driven access controls to block access to suspicious websites.                                      |
+| **Eliminate Lateral Movement**                               | Ensure users connect directly to applications instead of the network, and use AI-driven app segmentation to minimize the impact of any potential security breaches.               |
+| **Shut Down Compromised Users and Insider Threats**          | Leverage inline inspection to prevent exploitation of private applications and deploy integrated deception capabilities to detect even the most sophisticated attackers.          |
+| **Stop Data Loss**                                           | Conduct thorough inspection of data in motion and at rest to prevent theft by active attackers.                                                                                  |
+| **Foundational Security Best Practices**                      | Adopt fundamental security practices to strengthen overall resilience against phishing attacks.                                                                                 |
+---
 # Resources
 
-[Deepfakes Rank as the Second Most Common Cybersecurity Incident for US Businesses](https://www.darkreading.com/cyberattacks-data-breaches/deepfakes-rank-as-the-second-most-common-cybersecurity-incident-for-us-businesses)
-<br>
+[Deepfakes Rank as the Second Most Common Cybersecurity Incident for US Businesses](https://www.darkreading.com/cyberattacks-data-breaches/deepfakes-rank-as-the-second-most-common-cybersecurity-incident-for-us-businesses)<br>
+[Learning a URL Representation with Deep Learning for Malicious URL Detection](https://arxiv.org/abs/1802.03162)
+
