@@ -34,7 +34,7 @@ The US, UK, India, Canada, and Germany were the top five countries targeted by p
 
 By automating and customizing different stages of the attack process, AI enhances phishing tactics, making them faster, more refined, and increasingly difficult to detect.
 
-GenAI can rapidly analyze publicly available data, including information about organizations and their leadership, reducing the time required for reconnaissance and enabling highly targeted attacks. **LLM chatbots** create precise and convincing phishing messages, eliminating the usual telltale signs like spelling and grammar errors. Additionally, GenAI can quickly generate realistic phishing websites. The ThreatLabz report highlights how ChatGPT produced a phishing login page in less than 10 prompts, offering key indicators to help identify phishing attempts.
+GenAI can rapidly analyze publicly available data, including information about organizations and their leadership, reducing the time required for reconnaissance and enabling highly targeted attacks. **LLM chatbots** create precise and convincing phishing messages, eliminating the usual telltale signs like spelling and grammar errors. Additionally, GenAI can quickly generate realistic phishing websites. 
 
 AI has blurred the boundaries between genuine and fraudulent content, making it even harder to distinguish between legitimate communications and phishing schemes.
 
