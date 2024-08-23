@@ -10,8 +10,8 @@ Another tactic used by adversaries is forging or spoofing the identity of the se
 | :------------- | ------------- | ------------- | ------------- |
 | T1566  |[Phishing](https://attack.mitre.org/versions/v15/techniques/T1566/)  | [T1566.001](https://attack.mitre.org/versions/v15/techniques/T1566/001/) [T1566.002](https://attack.mitre.org/versions/v15/techniques/T1566/002/) [T1566.003](https://attack.mitre.org/versions/v15/techniques/T1566/003/) [T1566.004](https://attack.mitre.org/versions/v15/techniques/T1566/004/)| [Initial Access](https://attack.mitre.org/versions/v15/tactics/TA0001/) |
 
----
 
+<br>
 
 ## What is social engineering?
 Social engineering is any manipulation technique that exploits human behavior and error to gain access to sensitive or confidential information. While some scammers might steal someone’s personal information, social engineers convince their victims to willingly hand over the requested information, such as usernames and passwords.
