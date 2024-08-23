@@ -6,7 +6,7 @@ Phishing can also be conducted via third-party services, such as social media pl
 
 Another tactic used by adversaries is forging or spoofing the identity of the sender, which can deceive both the human recipient and automated security tools. Before we dive into the depths of the Phishing technique, let me speak about *social engineering*...
 
-# Attack detail:
+## Attack detail:
 
 | ID | ATT&CK Reference| Sub-techniques | Tactic | 
 | :------------- | ------------- | ------------- | ------------- |
