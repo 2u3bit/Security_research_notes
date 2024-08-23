@@ -24,7 +24,7 @@ While traditional social engineering relies on exploiting human psychology by im
 
 ## Top phishing targets
 
-- The US, UK, India, Canada, and Germany were the top five countries targeted by phishing attacks.
+The US, UK, India, Canada, and Germany were the top five countries targeted by phishing attacks.
 
 > ![image](https://github.com/user-attachments/assets/493d21e5-745f-4ea5-b617-e614e084816d)
 
