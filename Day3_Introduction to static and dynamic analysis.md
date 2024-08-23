@@ -144,12 +144,8 @@ Some examples of advanced attacks that may overcome dynamic analysis include:
 results in a higher detection rate for sophisticated malware threats. However, teams must consider that some threat actors have developed programs meant to overcome dynamic analysis methods.
 As you can see, sandboxing is not a foolproof solution to malware threats. Knowing when and how to use a sandbox under certain conditions is crucial to the effectiveness of dynamic malware analysis. Be sure to scan files individually to avoid contamination, and create processes to avoid security bottlenecks.
 
-## Toolkits
-Here are some essential tools for conducting static malware analysis:
-
-## Toolkits for Static Malware Analysis
-
-Here are some essential tools for conducting static malware analysis:
+## Toolkits for Malware Analysis
+Here are some essential tools for conducting static and dynamic malware analysis:
 
 | Tool’s Name                                                                     | Functionality of the Tools                                                                                         |
 |---------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
@@ -174,7 +170,7 @@ Here are some essential tools for conducting static malware analysis:
 | [ProcDot](https://procdot.com/)                                  | Generates visual representations of process and API call relationships.                                              |
 | [ProcMon](https://learn.microsoft.com/en-us/sysinternals/downloads/procmon)     | Monitors and logs system activity including file system, registry, and process/thread activity.                     |
 | [Ghidra](https://ghidra-sre.org/)                                               | Software reverse engineering suite developed by NSA, used for analyzing executable files.                           |
-| [APIMonitor](https://www.rohitab.com/apimonitor)                                | Monitors API calls made by a process.                                                                               |
+| [APIMonitor](http://www.rohitab.com/apimonitor)                                | Monitors API calls made by a process.                                                                               |
 | [Regshot](https://sourceforge.net/projects/regshot/)                            | Takes snapshots of the Windows registry and compares them to detect changes.                                        |
 
 ---
