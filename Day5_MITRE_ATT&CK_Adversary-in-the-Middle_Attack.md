@@ -1,6 +1,8 @@
 # Day 5: Adversary-in-the-Middle
 ## Overview:
-Adversaries may attempt to position themselves between two or more networked devices using an adversary-in-the-middle (AiTM) technique to support follow-on behaviors such as ***Network Sniffing***, ***Transmitted Data Manipulation***, or ***replay attacks (Exploitation for Credential Access)***. By abusing features of common networking protocols that can determine the flow of network traffic (e.g. ARP, DNS, LLMNR, etc.), adversaries may force a device to communicate through an adversary controlled system so they can collect information or perform additional actions.
+Adversaries may attempt to position themselves between two or more networked devices using an adversary-in-the-middle (AiTM) technique to support follow-on behaviors such as ***Network Sniffing***, ***Transmitted Data Manipulation***, or ***replay attacks (Exploitation for Credential Access)***. By abusing features of common networking protocols that can determine the flow of network traffic (e.g., ARP, DNS, LLMNR, etc.), adversaries may force a device to communicate through an adversary-controlled system so they can collect information or perform additional actions.
+
+![image](https://github.com/user-attachments/assets/c94d3658-e560-4ccf-8efe-b9411b8f6fba)
 
 ### What is Network Sniffing? 
 Network sniffing involves an adversary passively monitoring network traffic to capture sensitive information like authentication details. By placing a network interface in promiscuous mode or using span ports, attackers can access data in transit, potentially capturing unencrypted credentials. Techniques like name service resolution poisoning such as [LLMNR/NBT-NS Poisoning and SMB Relay](https://attack.mitre.org/techniques/T1557/001/) can further redirect traffic to the adversary, compromising websites, proxies, and internal systems.
@@ -13,7 +15,7 @@ Adversaries may alter data during transmission to manipulate outcomes or conceal
 For more complex systems, adversaries likely require specialized knowledge and software, often obtained through extensive information gathering, to effectively achieve their goals.
 
 ### Exploitation for Credential Access? 
-Adversaries may exploit software vulnerabilities to gain access to credentials. This involves taking advantage of programming errors in applications, services, or operating systems to execute malicious code. Targeting credentialing and authentication mechanisms, adversaries can obtain valuable credentials or bypass authentication processes to access systems.
+Adversaries may exploit software vulnerabilities to gain access to credentials. This involves taking advantage of programming errors in applications, services, or operating systems to execute malicious code. By targeting credentialing and authentication mechanisms, adversaries can obtain valuable credentials or bypass authentication processes to access systems.
 
 Examples include exploiting vulnerabilities like MS14-068 to forge Kerberos tickets or conducting replay attacks to impersonate users by replaying intercepted data packets. In cloud environments, vulnerabilities can be exploited to create or renew authentication tokens unintentionally. Such exploitation can also lead to privilege escalation if the obtained credentials allow higher-level access.
 
