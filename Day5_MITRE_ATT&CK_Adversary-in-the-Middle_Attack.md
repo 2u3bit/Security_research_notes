@@ -34,12 +34,25 @@ Such attacks are challenging to detect, especially since they often occur on per
 ![image](https://github.com/user-attachments/assets/32580058-0745-4ec0-ba40-4568a355c0ba)
 
 
-
-## Enforce restrictions to critical resources
+## Enforce restrictions to critical resources (managed devices)
 | **Security Measure**                        | **Description**                                                                                   |
 |---------------------------------------------|---------------------------------------------------------------------------------------------------|
 | **Access to critical applications**         | Restrict access to critical applications to devices that are recognized and managed by the organization. This ensures that only secure, approved devices can connect. |
 | **Utilize compliance tools**                | Implement tools such as Mobile Device Management (MDM) and enforce device-based conditional or contextual access policies to manage and monitor device compliance. |
 | **Require compliant devices**               | Enforce the use of devices that meet the organization's security standards as an additional access control, ensuring that only compliant devices can access critical resources. |
 | **Keep devices patched and up-to-date**     | Regularly update devices with the latest security patches to protect against vulnerabilities and ensure they meet compliance standards. |
-| **Use phishing-resistant MFA solutions**    | Implement multi-factor authentication (MFA) solutions that are resistant to phishing attempts, enhancing the security of the authentication process. |
+| **Use phishing-resistant MFA solutions**    | Implement multi-factor authentication (MFA) solutions that are resistant (WfH, FIDO) to phishing attempts, enhancing the security of the authentication process. |
+
+> While passwordless authentication effectively mitigates the risk of credential theft, it doesn't fully address the threat of token theft. However, it does offer a significant security improvement. In a phishing scenario, if a user is targeted but doesn't know their password—because they are using passwordless authentication—the attacker can't easily proceed. This reduces the likelihood of the phishing attempt succeeding, as the user can't provide a password that they don't have. Therefore, while it doesn't eliminate all risks, passwordless authentication is a valuable step towards strengthening security and minimizing potential damage. 
+
+## Enforce restrictions to critical resources (unmanaged devices)
+
+| **Recommendation**                          | **Action**                                                                                                                 |
+|---------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| **Reduce the lifetime of the session**      | Shorten the duration of user sessions to minimize the window of opportunity for token exploitation.                        |
+| **Implement Conditional Access App Control**| Configure Microsoft Defender for Cloud Apps to restrict access from unmanaged devices, mitigating the risk of unauthorized access through compromised devices. |
+
+
+>It's great to have managed devices with Windows 11, Entra ID joined, and protected by conditional access policies. However, there will always be cases where users access resources from unmanaged devices. In such situations, one effective measure is to use conditional access policies to reduce the session lifetime. By default, a primary refresh token can remain valid for a long period, which can be risky if passwords are not frequently rotated. However, frequent password rotation is no longer recommended by NIST and has been adopted by Microsoft. The focus should instead be on transitioning to a passwordless environment using phishing-resistant MFA solutions, which offer stronger security and reduce the reliance on passwords.
+
+
