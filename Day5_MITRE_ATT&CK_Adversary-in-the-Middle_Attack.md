@@ -34,4 +34,12 @@ Such attacks are challenging to detect, especially since they often occur on per
 ![image](https://github.com/user-attachments/assets/32580058-0745-4ec0-ba40-4568a355c0ba)
 
 
-> Working on this 
+
+## Enforce restrictions to critical resources
+| **Security Measure**                        | **Description**                                                                                   |
+|---------------------------------------------|---------------------------------------------------------------------------------------------------|
+| **Access to critical applications**         | Restrict access to critical applications to devices that are recognized and managed by the organization. This ensures that only secure, approved devices can connect. |
+| **Utilize compliance tools**                | Implement tools such as Mobile Device Management (MDM) and enforce device-based conditional or contextual access policies to manage and monitor device compliance. |
+| **Require compliant devices**               | Enforce the use of devices that meet the organization's security standards as an additional access control, ensuring that only compliant devices can access critical resources. |
+| **Keep devices patched and up-to-date**     | Regularly update devices with the latest security patches to protect against vulnerabilities and ensure they meet compliance standards. |
+| **Use phishing-resistant MFA solutions**    | Implement multi-factor authentication (MFA) solutions that are resistant to phishing attempts, enhancing the security of the authentication process. |
