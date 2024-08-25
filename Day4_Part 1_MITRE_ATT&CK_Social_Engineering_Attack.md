@@ -42,5 +42,5 @@ In recent times, attackers have been taking advantage of the growth in software 
 ---
 
 # Resource
-[Social engineering](https://www.microsoft.com/en-us/microsoft-365-life-hacks/privacy-and-safety/what-is-social-engineering?msockid=19dba958fccb6dd6182dbd54fd836cb6) <br>
-[Mitigation strategies against the phishing attacks](https://www.sciencedirect.com/science/article/pii/S0167404823002973) <br>
+■ [Social engineering](https://www.microsoft.com/en-us/microsoft-365-life-hacks/privacy-and-safety/what-is-social-engineering?msockid=19dba958fccb6dd6182dbd54fd836cb6) <br>
+■ [Mitigation strategies against the phishing attacks](https://www.sciencedirect.com/science/article/pii/S0167404823002973) <br>
