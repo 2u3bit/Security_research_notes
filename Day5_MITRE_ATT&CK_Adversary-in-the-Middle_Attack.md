@@ -118,4 +118,4 @@ Entra Token Protection offers enhanced security by preventing the use of stolen 
 # Resources
 ■ [What's in a Downgrade?](https://arxiv.org/abs/1809.05681)<br>
 ■ [Token tactics: How to prevent, detect, and respond to cloud token theft](https://www.microsoft.com/en-us/security/blog/2022/11/16/token-tactics-how-to-prevent-detect-and-respond-to-cloud-token-theft/) <br>
-■ [Token tactics: How to prevent, detect, and respond to cloud token theft](https://www.microsoft.com/en-us/security/blog/2022/11/16/token-tactics-how-to-prevent-detect-and-respond-to-cloud-token-theft/) <br>
+■ [How the adversary-in-the-middle technique is used in spearphishing attacks](https://www.kaspersky.com/blog/what-is-aitm-in-spearphishing-attacks/51919/) <br>
