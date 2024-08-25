@@ -120,4 +120,3 @@ Entra Token Protection offers enhanced security by preventing the use of stolen 
 ■ [What's in a Downgrade?](https://arxiv.org/abs/1809.05681)<br>
 
 ■ [Token tactics: How to prevent, detect, and respond to cloud token theft](https://www.microsoft.com/en-us/security/blog/2022/11/16/token-tactics-how-to-prevent-detect-and-respond-to-cloud-token-theft/)
-
