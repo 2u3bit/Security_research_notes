@@ -58,6 +58,10 @@ Such attacks are challenging to detect, especially since they often occur on per
 ## Showcasing the session lifetime configuration using conditional access 
 ![msedge_ogll4pDuo5](https://github.com/user-attachments/assets/1bbcfe5c-155b-425a-80c0-f1b3c8f5c48d)
 
+![image](https://github.com/user-attachments/assets/b7b0c7b5-3931-46a3-abc9-3c01b0df30c9)
+
+> One idea to configure the policy. So devices that meet this criteria will be excluded from this policy.
+
 # Entra Token Protection (Preview) (aka Token Binding)
 
 **What is Entra Token Protection?**
@@ -103,6 +107,12 @@ Entra Token Protection offers enhanced security by preventing the use of stolen 
 
 - **License Requirements:** Token protection is a feature of Entra ID Protection and requires Entra ID P2 licenses at general availability.
  
+### Protect Privileged Accounts
+
+- Use distinct identities for users with privileged accounts to minimize the attack surface from on-premises environments.
+- Privileged accounts should not have mailboxes attached to them.
+-  Adopt the use of Secure Access Workstations for accessing administrative portals.
+-  Implement Just-In-Time (JIT) access and adhere to the principle of least privilege to enhance security.
 
 
 
