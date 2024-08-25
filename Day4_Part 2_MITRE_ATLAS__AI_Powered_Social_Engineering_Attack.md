@@ -54,6 +54,6 @@ The following insights and strategies are recommended for mitigating these risks
 ---
 # Resources
 
-[Deepfakes Rank as the Second Most Common Cybersecurity Incident for US Businesses](https://www.darkreading.com/cyberattacks-data-breaches/deepfakes-rank-as-the-second-most-common-cybersecurity-incident-for-us-businesses)<br>
-[Learning a URL Representation with Deep Learning for Malicious URL Detection](https://arxiv.org/abs/1802.03162)
+■ [Deepfakes Rank as the Second Most Common Cybersecurity Incident for US Businesses](https://www.darkreading.com/cyberattacks-data-breaches/deepfakes-rank-as-the-second-most-common-cybersecurity-incident-for-us-businesses)<br>
+■ [Learning a URL Representation with Deep Learning for Malicious URL Detection](https://arxiv.org/abs/1802.03162)
 
