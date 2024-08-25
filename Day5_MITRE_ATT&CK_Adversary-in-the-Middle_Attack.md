@@ -34,7 +34,7 @@ Such attacks are challenging to detect, especially since they often occur on per
 ![image](https://github.com/user-attachments/assets/32580058-0745-4ec0-ba40-4568a355c0ba)
 
 
-## Enforce restrictions to critical resources (managed devices)
+## Enforce restrictions on critical resources (managed devices)
 | **Security Measure**                        | **Description**                                                                                   |
 |---------------------------------------------|---------------------------------------------------------------------------------------------------|
 | **Access to critical applications**         | Restrict access to critical applications to devices that are recognized and managed by the organization. This ensures that only secure, approved devices can connect. |
@@ -43,9 +43,9 @@ Such attacks are challenging to detect, especially since they often occur on per
 | **Keep devices patched and up-to-date**     | Regularly update devices with the latest security patches to protect against vulnerabilities and ensure they meet compliance standards. |
 | **Use phishing-resistant MFA solutions**    | Implement multi-factor authentication (MFA) solutions that are resistant (WfH, FIDO) to phishing attempts, enhancing the security of the authentication process. |
 
-> While passwordless authentication effectively mitigates the risk of credential theft, it doesn't fully address the threat of token theft. However, it does offer a significant security improvement. In a phishing scenario, if a user is targeted but doesn't know their password—because they are using passwordless authentication—the attacker can't easily proceed. This reduces the likelihood of the phishing attempt succeeding, as the user can't provide a password that they don't have. Therefore, while it doesn't eliminate all risks, passwordless authentication is a valuable step towards strengthening security and minimizing potential damage. 
+> While passwordless authentication effectively mitigates the risk of credential theft, it doesn't fully address the threat of token theft. However, it does offer a significant security improvement. In a phishing scenario, if a user is targeted but doesn't know their password—because they are using passwordless authentication—the attacker can't easily proceed. This reduces the likelihood of the phishing attempt succeeding, as the user can't provide a password that they don't have. Therefore, while it doesn't eliminate all risks, passwordless authentication is a valuable step toward strengthening security and minimizing potential damage. 
 
-## Enforce restrictions to critical resources (unmanaged devices)
+## Enforce restrictions on critical resources (unmanaged devices)
 
 | **Recommendation**                          | **Action**                                                                                                                 |
 |---------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
@@ -53,6 +53,58 @@ Such attacks are challenging to detect, especially since they often occur on per
 | **Implement Conditional Access App Control**| Configure Microsoft Defender for Cloud Apps to restrict access from unmanaged devices, mitigating the risk of unauthorized access through compromised devices. |
 
 
->It's great to have managed devices with Windows 11, Entra ID joined, and protected by conditional access policies. However, there will always be cases where users access resources from unmanaged devices. In such situations, one effective measure is to use conditional access policies to reduce the session lifetime. By default, a primary refresh token can remain valid for a long period, which can be risky if passwords are not frequently rotated. However, frequent password rotation is no longer recommended by NIST and has been adopted by Microsoft. The focus should instead be on transitioning to a passwordless environment using phishing-resistant MFA solutions, which offer stronger security and reduce the reliance on passwords.
+>It's great to have managed devices with Windows 11, and Entra ID joined and protected by conditional access policies. However, there will always be cases where users access resources from unmanaged devices. In such situations, one effective measure is to use conditional access policies to reduce the session lifetime. By default, a primary refresh token can remain valid for a long period, which can be risky if passwords are not frequently rotated. However, frequent password rotation is no longer recommended by NIST and has been adopted by Microsoft. The focus should instead be on transitioning to a passwordless environment using phishing-resistant MFA solutions, which offer stronger security and reduce the reliance on passwords.
+
+## Showcasing the session lifetime configuration using conditional access 
+![msedge_ogll4pDuo5](https://github.com/user-attachments/assets/1bbcfe5c-155b-425a-80c0-f1b3c8f5c48d)
+
+# Entra Token Protection (Preview) (aka Token Binding)
+
+**What is Entra Token Protection?**
+
+Entra Token Protection, also known as token binding, establishes a cryptographic link between a token and the device it is issued to, providing enhanced security.
+
+**How does it work?**
+
+When a user registers a Windows 10 or newer device with Microsoft Entra ID, their primary identity is linked to the device. Upon signing in to an application using Microsoft Entra ID credentials, a sign-in session token (or refresh token) is issued. Entra Token Protection ensures that only tokens bound to the device, known as Primary Refresh Tokens (PRTs), can be used by applications to access resources.
+
+**Benefits of Entra Token Protection**
+
+Entra Token Protection offers enhanced security by preventing the use of stolen or compromised tokens. It also reduces the risk of credential theft by restricting the use of compromised tokens, thereby limiting potential damage. Additionally, it helps organizations improve compliance by providing a stronger layer of protection for user identities.
+
+### **Entra Token Protection** supports the following devices and applications:
+
+- **Devices:**
+  - Windows 10 or newer devices that are Microsoft Entra joined
+  - Microsoft Entra Hybrid joined
+  - Microsoft Entra registered
+
+- **Applications:**
+  - **OneDrive Sync Client:** Version 22.217 or later
+  - **Teams Native Client:** Version 1.6.00.1331 or later
+  - **Visual Studio 2022 (May 2023 or later):** When using the "Windows Authentication Broker" sign-in option
+
+### Entra Token Protection Current Limitations
+
+**Entra Token Protection** has the following limitations:
+
+- **External Users:** Microsoft Entra B2B users are not supported and should not be included in your conditional access policies.
+
+- **Unsupported Applications:** The following applications do not support signing in using protected token flows and users will be blocked when accessing Exchange and SharePoint:
+  - PowerShell modules accessing Exchange, SharePoint, or Microsoft Graph scopes served by Exchange or SharePoint.
+  - Power Query extension for Excel.
+  - Extensions to Visual Studio Code that access Exchange or SharePoint.
+  - The new Teams 2.1 preview client, which is blocked after signing out due to a bug. This issue has been fixed in recent service updates.
+
+- **Unsupported Windows Client Devices:** The following Windows client devices are not supported:
+  - Windows Server
+  - Surface Hub
+  - Windows-based Microsoft Teams Rooms (MTR) systems
+
+- **License Requirements:** Token protection is a feature of Entra ID Protection and requires Entra ID P2 licenses at general availability.
+ 
+
+
+
 
 
