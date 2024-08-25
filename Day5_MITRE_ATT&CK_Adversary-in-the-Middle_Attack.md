@@ -115,6 +115,9 @@ Entra Token Protection offers enhanced security by preventing the use of stolen 
 -  Implement Just-In-Time (JIT) access and adhere to the principle of least privilege to enhance security.
 
 
+# Resources
 
+■ [What's in a Downgrade?](https://arxiv.org/abs/1809.05681)<br>
 
+■ [Token tactics: How to prevent, detect, and respond to cloud token theft](https://www.microsoft.com/en-us/security/blog/2022/11/16/token-tactics-how-to-prevent-detect-and-respond-to-cloud-token-theft/)
 
