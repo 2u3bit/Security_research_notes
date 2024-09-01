@@ -40,54 +40,47 @@ Defender XDR detection and Entra-ID Protection are integrated by default. The au
 - Possible AiTM phishing attempt in Okta
 
 
-**Demo**:
+**Demo Introduction**:
 ![image](https://github.com/user-attachments/assets/4798c256-d28f-427c-be35-b5258cd40568)
 <br>
 ![image](https://github.com/user-attachments/assets/d549fd01-fa46-463f-83dd-ab10047986f3)
 
-Attack Story: <br> 
-The attacker was able to compromise the organization by leveraging a phishing email, stealing authentication cookies, and then spreading the attack internally through phishing and malicious documents. 
+## Attack Story
+The attacker was able to compromise the organization by leveraging a phishing email, stealing authentication cookies, and then spreading the attack internally through phishing and malicious documents.
 
-Attack Timeline:  <br> 
-T (Time): Phishing email sent.
-Sender: bob.egan@trey-research.com
-Subject: Improve your security with Microsoft Defender for Cloud
-URL: http://xxx.companyportal.cloud/
+### Attack Timeline
 
-T+10: The link is weaponized.
-The link in the email becomes malicious after it passes through the MDO (Microsoft Defender for Office 365) sandbox.
+| Time     | Event                                                                                   |
+|----------|-----------------------------------------------------------------------------------------|
+| T        | **Phishing email sent**<br>**Sender:** bob.egan@trey-research.com<br>**Subject:** Improve your security with Microsoft Defender for Cloud<br>**URL:** [http://xxx.companyportal.cloud/](http://xxx.companyportal.cloud/) |
+| T+10     | The link in the email becomes malicious after passing through the MDO (Microsoft Defender for Office 365) sandbox. |
+| T+15     | **Sonia Rogers** clicks on the link and authenticates with MFA (Multi-Factor Authentication).<br>**Role:** Cloud Architect<br>**Email:** sonia@xxx.m365dpoc.com |
+| T+18     | Sonia's ESTSAUTH cookies are stolen by the attacker. |
+| T+30     | The attacker logs in as Sonia using the stolen ESTSAUTH cookies, bypassing authentication and gaining access. |
+| T+35     | The attacker creates an inbox forwarding rule in Darol's email account, forwarding emails to their own address. |
+| T+38     | The attacker creates a new container in an Azure Storage account. |
+| T+40     | The attacker uploads a malicious file to the container and generates a URL with a SAS (Shared Access Signature) key.<br>**File Name:** generateAccountPlan.doc |
+| T+45     | The attacker, posing as Sonia, sends an internal phishing email with a link to the file in the Azure container.<br>**Sender:** sonia@xxx.m365dpoc.com<br>**Subject:** Account Plan Automation<br>**URL:** [link to the malicious file in the Azure storage account] |
+| T+65     | **Kelly Gibson** clicks on the link, downloads the file, and executes the payload.<br>**Role:** Account Strategist<br>**Email:** kelly@xxx.m365dpoc.com |
+| T+70     | Malicious activities begin. The attacker gains further access or control after the payload is executed. |
 
-T+15: Sonia Rogers clicks on the link and authenticates with MFA (Multi-Factor Authentication).
-Sonia Rogers' Role: Cloud Architect
-Email: sonia@xxx.m365dpoc.com
 
-T+18: Sonia's ESTSAUTH Cookies are stolen by the attacker.
 
-T+30: The attacker logs in as Sonia using the stolen ESTSAUTH Cookies.
-The attacker bypasses the authentication and gains access.
 
-T+35: The attacker creates an inbox forwarding rule in Darol's email account.
-The attacker forwards emails from Darol's account to their own.
 
-T+38: The attacker creates a new container in an Azure Storage account.
 
-T+40: The attacker uploads a malicious file to the container and generates a URL with a SAS (Shared Access Signature) key.
-File Name: generateAccountPlan.doc
 
-T+45: The attacker (posing as Sonia) sends an internal phishing email with a link to the file in the Azure container.
-Sender: sonia@xxx.m365dpoc.com
-Subject: Account Plan Automation
-URL: [link to the malicious file in the Azure storage account]
 
-T+65: Kelly Gibson clicks on the link, downloads the file, and executes the payload.
-Kelly Gibson's Role: Account Strategist
-Email: kelly@xxx.m365dpoc.com
 
-T+70: Malicious activities begin.
-The attacker gains further access or control after the payload is executed.
+
+
+
+
+
+
+
 
 ---
-
 Cooking ***
 
 # Resources
