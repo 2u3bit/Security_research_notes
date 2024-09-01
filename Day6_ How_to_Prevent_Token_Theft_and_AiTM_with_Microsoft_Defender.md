@@ -35,8 +35,7 @@ The automatic attack disruption feature in Microsoft's XDR does not necessitate 
 **Demo**:
 ![image](https://github.com/user-attachments/assets/45473c4e-79fc-451b-93b9-8321f5fc0575)
 
-
-
+Attack story: A typical type of attack that you might seen in an enviroment where so a user was fishd, recievd an email link that redirected the attackers proxy which is impersonating Microsoft login page, after the user enterd the credentials and then these satisfied with the MFA prompt where the attacker obtain session cookie and gain access to the enviroment to a user behalf to both office365 and the Azure potal from suspicious ip address.  
 
 
 
