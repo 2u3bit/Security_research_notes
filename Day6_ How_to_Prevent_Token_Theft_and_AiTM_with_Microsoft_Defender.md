@@ -1,8 +1,38 @@
+# Day 6: How to prevent token theft and AiTM using Microsoft Defender
+In my last post, I elaborately described the vast information related to AiTM and how advanced these attacks have become. These incredibly sophisticated tactics included building fraudulent sites that captured users' login credentials, allowing attackers to take over sign-in sessions and bypass authentication protections—even with Multifactor Authentication (MFA) enabled.
+
+Today, I'm going to shed more light on how you can detect and mitigate these kinds of attacks using Microsoft Defender. Related blogs used for this research are marked down below the page under the resource section, so feel free to check them out.
 
 
+## Detecting AiTM:
+Automated tools of the adversaries: <br>
+■ [Evilginx2](https://github.com/kgretzky/evilginx2)<br>
+■ [Modlishka](https://github.com/drk1wi/Modlishka)<br>
+■ [Muraena](https://github.com/muraenateam/muraena)<br>
 
+### Overview:
+Some strategies for detecting token theft with Microsoft Defender and Microsoft Entra. 
 
+> Token reply will trigger specefiec IOCs such as impossible travel alerts. 
 
+In genral token theft is difficult to detect but there are certian indicator of compermise that will be triggerd such as impossble travel alerts, so whitin the Entra id just by take a look at the sign-in logs, of course an enviroment has a lot of high volume and it could be difficult, but there are ways to filter that and look through the sing-in logs. 
+
+Example: Imagine a user is succesfuly sign-in from location in the europ but they are us-based and they are not in the europ, so this is a clear indicator of compromise. Key-note here is the **succesfull loggin** and **location of the attemp** and **interval of these attemps**.
+
+> Entra-ID protection and Defender for Cloud Apps are tuned to raise alerts:
+Entra-ID protection (P2-capabilities) and Defender for Cloud apps are tuned to raise alerts whit these type pof events, by default are these capabilities and integration turned on so you dont ineed to do anything extra if you are using Entra-ID protection and Defender for cloud apps but if you have third-party apps you might need to be looking those type of alerts. 
+
+> Defender for endpoints on windows 10 and 11 detects suspicious access to PRT(primary refresh token) and associated artifacts
+
+> Defender XDR detection and Enra-ID Protection are integerated by defualt 
+The automatic attack disruption feature in Microsoft's XDR does not necessitate pre-configuration by the SOC team, it is inherently integrated. The following detections are enabled for automatic attack disruptions:
+
+- User compromised via a known AiTM phishing kit
+- User compromised in an AiTM phishing attack
+- Stolen session cookie used
+- Possible AiTM phishing attempt in Okta
+
+**Demo**:
 
 
 
