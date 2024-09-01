@@ -23,7 +23,7 @@ In a traditional credential theft scenario, an attacker sends a phishing email t
 
 ![image](https://github.com/user-attachments/assets/6205aca5-967c-4e0e-aae8-c308e1a2fa71)
 
-In an Adversary-in-the-Middle phishing attack, an attacker sends a phishing email to a user and places malicious infrastructure between the user and the legitimate site. This infrastructure mimics a Microsoft login page to capture credentials. Tools like OTP and EvilginX2 can be used in this attack to steal both credentials and tokens. Once the attacker obtains the token, they can replay it. If MFA is used, the attacker captures the MFA response as well, allowing them to complete the authentication process and gain access.
+In an Adversary-in-the-Middle phishing attack, an attacker sends a phishing email to a user and places malicious infrastructure between the user and the legitimate site. This infrastructure mimics a Microsoft login page to capture credentials. Tools like OTP and EvilginX2 can be used in this attack to steal both credentials and tokens. Once the attacker obtains the token, they can replay it. If MFA is used, the attacker also captures the MFA response, allowing them to complete the authentication process and gain access.
 
 ![image](https://github.com/user-attachments/assets/6be67ef5-2012-4305-b7d1-867de23e7dba)
 
@@ -53,7 +53,7 @@ Such attacks are challenging to detect, especially since they often occur on per
 | **Implement Conditional Access App Control**| Configure Microsoft Defender for Cloud Apps to restrict access from unmanaged devices, mitigating the risk of unauthorized access through compromised devices. |
 
 
->It's great to have managed devices with Windows 11, and Entra ID joined and protected by conditional access policies. However, there will always be cases where users access resources from unmanaged devices. In such situations, one effective measure is to use conditional access policies to reduce the session lifetime. By default, a primary refresh token can remain valid for a long period, which can be risky if passwords are not frequently rotated. However, frequent password rotation is no longer recommended by NIST and has been adopted by Microsoft. The focus should instead be on transitioning to a passwordless environment using phishing-resistant MFA solutions, which offer stronger security and reduce the reliance on passwords.
+>It's great to have managed devices with Windows 11, and Entra ID joined and protected by conditional access policies. However, there will always be cases where users access resources from unmanaged devices. In such situations, one effective measure is to use conditional access policies to reduce the session lifetime. By default, a primary refresh token can remain valid for a long period, which can be risky if passwords are not frequently rotated. However, frequent password rotation is no longer recommended by NIST and this advice has been adopted by Microsoft. The focus should instead be on transitioning to a passwordless environment using phishing-resistant MFA solutions, which offer stronger security and reduce the reliance on passwords.
 
 ## Showcasing the session lifetime configuration using conditional access 
 ![msedge_ogll4pDuo5](https://github.com/user-attachments/assets/1bbcfe5c-155b-425a-80c0-f1b3c8f5c48d)
