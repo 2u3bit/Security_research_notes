@@ -5,7 +5,7 @@ Today, I'm going to shed more light on how you can detect and mitigate these kin
 
 
 ## Detecting AiTM:
-Automated tools of the adversaries: <br>
+Automated tools used by adversaries: <br>
 ■ [Evilginx2](https://github.com/kgretzky/evilginx2)<br>
 ■ [Modlishka](https://github.com/drk1wi/Modlishka)<br>
 ■ [Muraena](https://github.com/muraenateam/muraena)<br>
@@ -15,12 +15,12 @@ Some strategies for detecting token theft with Microsoft Defender and Microsoft 
 
 > Token reply will trigger specific IOCs such as impossible travel alerts. 
 
-In general token theft is difficult to detect. Still, there are certain indicator of compromise that will be triggerd such as impossible travel alerts, so whitin the Entra id just by taking a look at the sign-in logs, of course, an environment has a lot of high volume. It could be difficult, but there are ways to filter that and look through the sing-in logs. 
+In general token theft is difficult to detect. Still, certain indicators of compromise will be triggered such as impossible travel alerts, so within the Entra ID just by taking a look at the sign-in logs, of course, an environment has a lot of high volume. It could be difficult, but there are ways to filter that and look through the sign-in logs. 
 
-Example: Imagine a user is successfully sign-in in from a location in the Europ but is us-based and not in the Europ, so this is a clear indicator of compromise. Key-note here is the **successful login** and **location of the attempt** and **interval of these attempts**.
+Example: Imagine a user is successfully signing in from a location in the Europ but is US-based and not in the Europ, so this is a clear indicator of compromise. Key-note here is the **successful login** and **location of the attempt** and **interval of these attempts**.
 
 > Entra-ID protection and Defender for Cloud Apps are tuned to raise alerts:
-Entra-ID protection (P2-capabilities) and Defender for Cloud apps are tuned to raise alerts whit these types of events, by default are these capabilities and integration turned on so you don't need to do anything extra if you are using Entra-ID protection and Defender for Cloud Apps but if you have third-party apps you might need to be looking those type of alerts. 
+Entra-ID protection (P2-capabilities) and Defender for Cloud apps are tuned to raise alerts with these types of events, by default are these capabilities and integration turned on so you don't need to do anything extra if you are using Entra-ID protection and Defender for Cloud Apps but if you have third-party apps you might need to be looking those type of alerts. 
 
 > Defender for endpoints on Windows 10 and 11 detects suspicious access to PRT(primary refresh token) and associated artifacts
 
