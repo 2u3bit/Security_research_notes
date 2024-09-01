@@ -22,7 +22,7 @@ Example: Imagine a user is successfully signing in from a location in the Europ 
 > Entra-ID protection and Defender for Cloud Apps are tuned to raise alerts:
 Entra-ID protection (P2-capabilities) and Defender for Cloud apps are tuned to raise alerts with these types of events, by default are these capabilities and integration turned on so you don't need to do anything extra if you are using Entra-ID protection and Defender for Cloud Apps but if you have third-party apps you might need to be looking those type of alerts. 
 
-> Defender for endpoints on Windows 10 and 11 detects suspicious access to PRT(primary refresh token) and associated artifacts
+> Defender for endpoints on Windows 10 and 11 detects suspicious access to PRT (primary refresh token) and associated artifacts
 
 > Defender XDR detection and Enra-ID Protection are integrated by default 
 The automatic attack disruption feature in Microsoft's XDR does not necessitate pre-configuration by the SOC team, it is inherently integrated. The following detections are enabled for automatic attack disruptions:
