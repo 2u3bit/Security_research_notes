@@ -26,11 +26,10 @@ Entra-ID protection (P2-capabilities) and Defender for Cloud apps are tuned to r
 
 > Defender XDR detection and Enra-ID Protection are integrated by default 
 The automatic attack disruption feature in Microsoft's XDR does not necessitate pre-configuration by the SOC team, it is inherently integrated. The following detections are enabled for automatic attack disruptions:
-
-- User compromised via a known AiTM phishing kit
-- User compromised in an AiTM phishing attack
-- Stolen session cookie used
-- Possible AiTM phishing attempt in Okta
+>- User compromised via a known AiTM phishing kit
+>- User compromised in an AiTM phishing attack
+>- Stolen session cookie used
+>- Possible AiTM phishing attempt in Okta
 
 **Demo**:
 ![image](https://github.com/user-attachments/assets/4798c256-d28f-427c-be35-b5258cd40568)
