@@ -37,9 +37,10 @@ The automatic attack disruption feature in Microsoft's XDR does not necessitate 
 <br>
 ![image](https://github.com/user-attachments/assets/d549fd01-fa46-463f-83dd-ab10047986f3)
 
-Attack Story: The attacker was able to compromise the organization by leveraging a phishing email, stealing authentication cookies, and then spreading the attack internally through phishing and malicious documents. 
+Attack Story: <br> 
+The attacker was able to compromise the organization by leveraging a phishing email, stealing authentication cookies, and then spreading the attack internally through phishing and malicious documents. 
 
-Attack Timeline: 
+Attack Timeline:  <br> 
 T (Time): Phishing email sent.
 Sender: bob.egan@trey-research.com
 Subject: Improve your security with Microsoft Defender for Cloud
