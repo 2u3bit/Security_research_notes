@@ -13,18 +13,18 @@ Automated tools of the adversaries: <br>
 ### Overview:
 Some strategies for detecting token theft with Microsoft Defender and Microsoft Entra. 
 
-> Token reply will trigger specefiec IOCs such as impossible travel alerts. 
+> Token reply will trigger specific IOCs such as impossible travel alerts. 
 
-In genral token theft is difficult to detect but there are certian indicator of compermise that will be triggerd such as impossble travel alerts, so whitin the Entra id just by take a look at the sign-in logs, of course an enviroment has a lot of high volume and it could be difficult, but there are ways to filter that and look through the sing-in logs. 
+In general token theft is difficult to detect. Still, there are certain indicator of compromise that will be triggerd such as impossible travel alerts, so whitin the Entra id just by taking a look at the sign-in logs, of course, an environment has a lot of high volume. It could be difficult, but there are ways to filter that and look through the sing-in logs. 
 
-Example: Imagine a user is succesfuly sign-in from location in the europ but they are us-based and they are not in the europ, so this is a clear indicator of compromise. Key-note here is the **succesfull loggin** and **location of the attemp** and **interval of these attemps**.
+Example: Imagine a user is successfully sign-in in from a location in the Europ but is us-based and not in the Europ, so this is a clear indicator of compromise. Key-note here is the **successful login** and **location of the attempt** and **interval of these attempts**.
 
 > Entra-ID protection and Defender for Cloud Apps are tuned to raise alerts:
-Entra-ID protection (P2-capabilities) and Defender for Cloud apps are tuned to raise alerts whit these type pof events, by default are these capabilities and integration turned on so you dont ineed to do anything extra if you are using Entra-ID protection and Defender for cloud apps but if you have third-party apps you might need to be looking those type of alerts. 
+Entra-ID protection (P2-capabilities) and Defender for Cloud apps are tuned to raise alerts whit these types of events, by default are these capabilities and integration turned on so you don't need to do anything extra if you are using Entra-ID protection and Defender for Cloud Apps but if you have third-party apps you might need to be looking those type of alerts. 
 
-> Defender for endpoints on windows 10 and 11 detects suspicious access to PRT(primary refresh token) and associated artifacts
+> Defender for endpoints on Windows 10 and 11 detects suspicious access to PRT(primary refresh token) and associated artifacts
 
-> Defender XDR detection and Enra-ID Protection are integerated by defualt 
+> Defender XDR detection and Enra-ID Protection are integrated by default 
 The automatic attack disruption feature in Microsoft's XDR does not necessitate pre-configuration by the SOC team, it is inherently integrated. The following detections are enabled for automatic attack disruptions:
 
 - User compromised via a known AiTM phishing kit
@@ -33,7 +33,7 @@ The automatic attack disruption feature in Microsoft's XDR does not necessitate 
 - Possible AiTM phishing attempt in Okta
 
 **Demo**:
-
+![image](https://github.com/user-attachments/assets/45473c4e-79fc-451b-93b9-8321f5fc0575)
 
 
 
