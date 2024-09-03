@@ -119,7 +119,121 @@ CloudAppEvents
 ```
 
 
-### Defending against AiTM phishing and BEC
+### Mitigation and prevention against AiTM 
+
+
+### Protect Against AiTM Phishing
+
+As MFA adoption grows, AiTM phishing (where attackers use advanced techniques) is expected to rise. Protecting against AiTM phishing is crucial.
+
+### Key Protection Strategies:
+
+- **Phish-resistant MFA solutions** (e.g., FIDO2, Certificate-based authentication)
+- **Conditional Access** policies
+- **Monitoring and alerts** through Microsoft 365 Defender and Azure AD Identity Protection
+
+### Phish-Resistant MFA Solutions
+
+Microsoft offers several primary authentication methods, with varying levels of protection against AiTM phishing:
+
+| **Method**                            | **Protected Against AiTM** |
+|---------------------------------------|----------------------------|
+| FIDO2 security keys                   | ✅                          |
+| Windows Hello for Business            | ✅                          |
+| Certificate-based authentication      | ✅                          |
+| Passwordless phone sign-in            | ❌                          |
+| Phone number and SMS                  | ❌                          |
+| Username and password                 | ❌                          |
+
+*Only FIDO2, Windows Hello for Business, and Certificate-based authentication are protected against AiTM phishing by default. Username and password can be enhanced with Conditional Access for better protection.*
+
+### Protected 2FA/MFA Methods
+Not all 2FA/MFA methods offer protection against AiTM attacks. Here’s a breakdown:
+
+| **Method**                                          | **Protected Against AiTM** |
+|-----------------------------------------------------|----------------------------|
+| SMS                                                 | ❌                          |
+| Phone call                                          | ❌                          |
+| Microsoft Authenticator App                         | ❌                          |
+| Microsoft Authenticator + Number matching           | ❌                          |
+| Microsoft Authenticator + Additional context        | ❌                          |
+| Microsoft Authenticator + Number matching + context | ❌                          |
+
+*None of these methods alone provide AiTM protection; they must be combined with additional Conditional Access controls.*
+
+### Conditional Access and Additional Controls
+
+2FA/MFA alone doesn’t protect against AiTM; only when combined with Conditional Access do these methods offer protection:
+
+| **Conditional Access Control**                    | **Protected Against AiTM** |
+|---------------------------------------------------|----------------------------|
+| Require device to be marked as compliant          | ✅                          |
+| Require device to be Hybrid Azure AD joined       | ✅                          |
+| Conditional Access Session Controls               | ❌                          |
+| Conditional Access Trusted Locations              | ✅                          |
+| Continuous Access Evaluation (CAE)                | ❌                          |
+
+*Conditional Access is key to protecting against AiTM.*
+
+### Additional Protections
+
+Some Microsoft security features do not directly protect against AiTM but offer other benefits:
+
+| **Feature**                                 | **Protected Against AiTM** |
+|---------------------------------------------|----------------------------|
+| Custom Tenant branding                      | ❌                          |
+| Azure AD Identity Protection                | ❌ (only alerting)          |
+| Microsoft Defender for Endpoint             | ❌                          |
+| Microsoft Defender for Cloud Apps           | ❌ (only alerting)          |
+| Microsoft Defender for Office 365           | ❌ (only email removal)     |
+
+### Revoking Sessions and MFA Registration
+
+To mitigate damage after an attack:
+
+- **Revoke sessions** via [portal.azure.com](https://portal.azure.com) to prevent attackers from using stolen cookies.
+- **Check for new authentication methods** added by the attacker (e.g., FIDO2 keys) and reset passwords.
+
+*Revoking sessions stops ongoing attacks but isn’t preventive. Always investigate further to ensure no new methods were registered by the attacker.*
+
+> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -148,6 +262,10 @@ The attacker was able to compromise the organization by leveraging a phishing em
 | T+45     | The attacker, posing as Sonia, sends an internal phishing email with a link to the file in the Azure container.<br>**Sender:** sonia@xxx.m365dpoc.com<br>**Subject:** Account Plan Automation<br>**URL:** [link to the malicious file in the Azure storage account] |
 | T+65     | **Kelly Gibson** clicks on the link, downloads the file, and executes the payload.<br>**Role:** Account Strategist<br>**Email:** kelly@xxx.m365dpoc.com |
 | T+70     | Malicious activities begin. The attacker gains further access or control after the payload is executed. |
+
+
+
+
 
 
 
