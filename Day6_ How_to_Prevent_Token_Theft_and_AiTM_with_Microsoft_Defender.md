@@ -66,20 +66,6 @@ Defender XDR detection and Entra-ID Protection are integrated by default. The au
 
 ***In addition, **[Continuous Access evaluation (CAE)](https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-continuous-access-evaluation)** revokes access in real time when changes in user conditions trigger risks, such as when a user is terminated or moves to an untrusted location.***
 
-
-<style>
-  body {
-    background-color: black;
-    color: white;
-  }
-  pre {
-    background-color: black;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-  }
-</style>
-
 ### Detecting AiTM using advanced hunting queries
 
 > When an attacker uses a stolen session cookie, the “SessionId” attribute in the AADSignInEventBeta table will be identical to the SessionId value used in the authentication process against the phishing site. Use this query to search for cookies that were first seen after OfficeHome application authentication (as seen when the user authenticated to the AiTM phishing site) and then seen being used in other applications in other countries:
@@ -100,57 +86,9 @@ AADSignInEventsBeta
 | project OtherTimestamp = Timestamp, Application, ApplicationId, AccountObjectId, AccountDisplayName, OtherCountry = Country, SessionId 
 | join OfficeHomeSessionIds on SessionId 
 | where OtherTimestamp > Timestamp and OtherCountry != Country 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```
 
 ### Defending against AiTM phishing and BEC
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Below Advanced Hunting queries can be used for detecting stolen session cookies. More information can be found [here](https://www.microsoft.com/en-us/security/).
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
