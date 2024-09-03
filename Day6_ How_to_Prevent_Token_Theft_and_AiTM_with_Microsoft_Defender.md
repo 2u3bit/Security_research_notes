@@ -12,59 +12,60 @@ Automated tools used by adversaries: <br>
 
 
 ### Overview
-Some strategies for detecting token theft with Microsoft Defender and Microsoft Entra include monitoring for specific Indicators of Compromise (IOCs), such as impossible travel alerts. 
+To detect token theft using Microsoft Defender and Microsoft Entra, focus on key Indicators of Compromise (IOCs), like impossible travel alerts.
 
-Detecting token theft can be challenging. However, certain indicators, such as impossible travel alerts, can help. In Entra ID, reviewing sign-in logs can reveal anomalies, although high volumes of log data can make this task difficult. Filtering and analyzing the sign-in logs effectively is key.
+Token theft detection can be tricky, but monitoring certain indicators, such as impossible travel, helps. In Entra ID, reviewing sign-in logs for anomalies is essential, though high log volumes can complicate this. Effective filtering and analysis are crucial.
 
-**Example:** If a user based in the US successfully signs in from a location in Europe, this could indicate a compromise. Key factors to consider are:
-- **Successful login**
-- **Location of the attempt**
-- **Interval of these attempts**
+**Example:** If a user in the US successfully signs in from Europe, it could indicate a compromise. Consider:
 
-### Entra-ID Protection 
-Entra-ID Protection (with P2 capabilities) and Defender for Cloud Apps are configured to raise alerts for specific events by default. These integrations are enabled automatically, so no additional configuration is required if you're using these services. For third-party applications, however, you may need to configure alert settings separately. Entra-ID Protection:
+| **Key Factor**       | **Description**                                |
+|----------------------|------------------------------------------------|
+| **Successful login** | A login attempt that was successful            |
+| **Location**         | The geographical location of the login attempt |
+| **Timing**           | The interval between these login attempts      |
 
-automatically detects and remediates identity-based risks. It detects suspicious sign-in attempts and raises any of the following alerts:
+### Entra ID Protection
+Entra ID Protection (P2) and Defender for Cloud Apps automatically raise alerts for certain events, with no extra setup needed. However, third-party apps may require manual configuration.
 
-- **Anomalous Token**:
-    - This alert flags a token’s unusual characteristics, such as its token lifetime or played from an unfamiliar location.
-- **Unfamiliar sign-in properties**: 
-    - In this phishing campaign, the attackers used multiple proxies or VPNs originating from various countries or regions unfamiliar to the target user.
-- **Unfamiliar sign-in properties for session cookies**:
-    - This alert flags anomalies in the token claims, token age, and other authentication attributes.
-- **Anonymous IP address**:
-    - This alert flags sign-in attempts from anonymous IP addresses (for example, Tor browser or anonymous VPN).
+| **Alert Type**                  | **Description**                                                                 |
+|---------------------------------|---------------------------------------------------------------------------------|
+| **Anomalous Token**             | Flags tokens with unusual characteristics, like unexpected locations or token lifetime |
+| **Unfamiliar sign-in properties** | Detects sign-ins from unfamiliar regions, often using proxies or VPNs          |
+| **Unfamiliar session cookies**  | Flags anomalies in token claims, age, and other authentication details          |
+| **Anonymous IP address**        | Detects sign-ins from anonymous IPs (e.g., Tor or anonymous VPNs)               |
 
 ### Defender for Cloud Apps
-- **Suspicious inbox manipulation rule**:
-    - The attackers set an Inbox rule to hide their malicious activities.   Defender for Cloud Apps identifies such suspicious rules and alerts users when detected.
 
-- **Impossible travel activity**. 
-    - The attackers used multiple proxies or virtual private networks (VPNs) from various countries or regions. Sometimes, their attack attempts happen at the same time the actual user is signed in, thus raising impossible travel alerts.
-- **Activity from infrequent country**. 
-    - Because the attackers used multiple proxies or VPNs, on certain occasions, the egress endpoints of these VPN and proxy servers are uncommon for the user, thus raising this alert.
+| **Alert Type**                       | **Description**                                                        |
+|--------------------------------------|------------------------------------------------------------------------|
+| **Suspicious inbox manipulation rule** | Alerts when attackers create rules to hide their activities             |
+| **Impossible travel activity**       | Flags sign-ins from multiple locations simultaneously, often due to VPN use |
+| **Activity from infrequent country** | Detects logins from unusual locations based on VPN or proxy usage       |
 
-### Defender for Endpoints and Microsoft defender 365
-Defender for Endpoints detects suspicious access to Primary Refresh Tokens (PRTs) and associated artifacts. Microsoft 365 Defender alerts customers using Microsoft Edge when a session cookie gets stolen through AiTM phishing and when an attacker attempts to replay the stolen session cookie to access Exchange Online:
+### Defender for Endpoints and Microsoft 365 Defender
 
-- Stolen session cookie was used
+| **Alert Type**            | **Description**                                                                  |
+|---------------------------|----------------------------------------------------------------------------------|
+| **Stolen session cookie used** | Alerts when session cookies are stolen and replayed in phishing attacks       |
 
 ### Defender for Office 365
-Microsoft Defender for Office 365 detects threat activity associated with this phishing campaign through the following email security alerts. Note, however, that these alerts may also be triggered by unrelated threat activity. We’re listing them here because we recommend that these alerts be investigated and remediated immediately.
 
-- **Email messages containing malicious file removed after delivery**​:     
-    - This alert is generated when any messages containing a malicious file are delivered to mailboxes in an organization. Microsoft removes the infected messages from Exchange Online mailboxes using zero-hour auto purge (ZAP) if this event occurs.
-- **Email messages from a campaign removed after delivery**​: 
-    - This alert is generated when any messages associated with a campaign are delivered to mailboxes in an organization. Microsoft removes the infected messages from Exchange Online mailboxes using ZAP if this event occurs.
+| **Alert Type**                                      | **Description**                                                                              |
+|-----------------------------------------------------|----------------------------------------------------------------------------------------------|
+| **Malicious file email removed after delivery**     | Triggers when infected emails are delivered and then removed by Microsoft                     |
+| **Campaign-related email removed after delivery**   | Triggers when campaign-associated emails are delivered and then removed by Microsoft          |
 
-### Defender XDR Detection and Entra-ID Protection Integration
-Defender XDR detection and Entra-ID Protection are integrated by default. The automatic attack disruption feature in Microsoft's XDR requires no pre-configuration by the SOC team. The following detections are enabled by default for automatic attack disruptions:
+### Defender XDR Detection and Entra ID Protection Integration
+Defender XDR and Entra ID Protection are integrated by default, enabling automatic attack disruption without pre-configuration.
 
-- User compromised via a known AiTM phishing kit
-- User compromised in an AiTM phishing attack
-- Possible AiTM phishing attempt in Okta
+| **Detection Type**                      | **Description**                                                    |
+|-----------------------------------------|--------------------------------------------------------------------|
+| **User compromised via AiTM phishing kit** | Detects when a user is compromised through a known AiTM phishing kit |
+| **User compromised in AiTM phishing attack** | Detects when a user is compromised in an AiTM phishing attack       |
+| **Possible AiTM phishing attempt in Okta** | Flags potential AiTM phishing attempts in Okta                      |
 
-***In addition, **[Continuous Access evaluation (CAE)](https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-continuous-access-evaluation)** revokes access in real time when changes in user conditions trigger risks, such as when a user is terminated or moves to an untrusted location.***
+Additionally, [Continuous Access Evaluation (CAE)](https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-continuous-access-evaluation) revokes access in real time when user conditions change, such as termination or relocation to an untrusted area.
+
 
 ### Detecting AiTM using advanced hunting queries
 
@@ -87,6 +88,36 @@ AADSignInEventsBeta
 | join OfficeHomeSessionIds on SessionId 
 | where OtherTimestamp > Timestamp and OtherCountry != Country 
 ```
+> Use this query to summarize for each user the countries that authenticated to the OfficeHome application and find uncommon or untrusted ones:  
+
+```kusto
+AADSignInEventsBeta 
+| where Timestamp > ago(7d) 
+| where ApplicationId == "4765445b-32c6-49b0-83e6-1d93765276ca" //OfficeHome application 
+| where ClientAppUsed == "Browser" 
+| where LogonType has "interactiveUser" 
+| summarize Countries = make_set(Country) by AccountObjectId, AccountDisplayName 
+```
+
+> Use this query to find new email Inbox rules created during a suspicious sign-in session:
+
+```kusto
+//Find suspicious tokens tagged by AAD "Anomalous Token" alert
+let suspiciousSessionIds = materialize(
+AlertInfo
+| where Timestamp > ago(7d)
+| where Title == "Anomalous Token"
+| join (AlertEvidence | where Timestamp > ago(7d) | where EntityType == "CloudLogonSession") on AlertId
+| project sessionId = todynamic(AdditionalFields).SessionId);
+//Find Inbox rules created during a session that used the anomalous token
+let hasSuspiciousSessionIds = isnotempty(toscalar(suspiciousSessionIds));
+CloudAppEvents
+| where hasSuspiciousSessionIds
+| where Timestamp > ago(21d)
+| where ActionType == "New-InboxRule"
+| where RawEventData.SessionId in (suspiciousSessionIds)
+```
+
 
 ### Defending against AiTM phishing and BEC
 
