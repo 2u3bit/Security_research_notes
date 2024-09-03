@@ -208,9 +208,11 @@ Not all 2FA/MFA methods offer protection against AiTM attacks. Here’s a breakd
 
 > Require MFA when registering security information or additional devices
 > Important Note: *Sadly this conditional access policy does not add additional protection when using the “Require multi-factor authentication” grant control.*
+
 ![RequireMFA](https://github.com/user-attachments/assets/b7f1480a-659e-46eb-9788-742c1d0f1d46)
 
 > When the initial sign-in was made with MFA the user will not be re-prompted for MFA again.
+
 ![RequireMFABypass](https://github.com/user-attachments/assets/6bbe1c6b-c820-41ea-88e8-530d353d6d50)
 
 ### Additional Protections
@@ -236,8 +238,11 @@ To mitigate damage after an attack:
 *Revoking sessions stop ongoing attacks but aren’t preventive. Always investigate further to ensure the attacker registers no new methods.*
 
 ![RevokeAllSessions](https://github.com/user-attachments/assets/84c7d37a-4429-42a4-850d-0858ed6074a2)
+
 > The administrator can revoke all sessions with one click.
+
 ![image](https://github.com/user-attachments/assets/ea62f2cf-f481-450b-a250-a252b51d8a0b)
+
 > The end user is requested to sign in again
 
 ![RevokeAllSessionsSignInLogs](https://github.com/user-attachments/assets/7b759475-a4e1-47ed-8a61-cb67d657ce02)
@@ -262,8 +267,8 @@ SigninLogs
 | project TimeGenerated, TimeDifference, UserPrincipalName, OperationName, InitialLoginMethod, SecurityInfoResultDescription, IPAddress, PossibleAttackerIPAddress,  SecurityInfoTimeGenerated
 | sort by TimeGenerated
 ```
-### Hunting Administrators not using FIDO2 or WHfB
 
+### Hunting Administrators not using FIDO2 or WHfB
 ```kutso
 let ConditionalAccessDisplayName = "Require MFA for administrators";
 union isfuzzy=true SigninLogs, AADNonInteractiveUserSignInLogs
@@ -276,7 +281,7 @@ union isfuzzy=true SigninLogs, AADNonInteractiveUserSignInLogs
 ```
 
 
-**Demo Introduction**:
+# **Demo Introduction**:
 ![image](https://github.com/user-attachments/assets/d549fd01-fa46-463f-83dd-ab10047986f3)
 
 ## Attack Story
