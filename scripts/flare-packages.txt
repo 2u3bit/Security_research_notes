@@ -1,0 +1,93 @@
+# FLARE-VM package list for Install-FlareVM.ps1
+#
+# The script downloads the official default config.xml from mandiant/flare-vm,
+# adds every package listed here and removes every line starting with "-".
+# Wildcards work for removals (e.g. -ida.plugin.*). Everything after # is ignored.
+# Full list https://github.com/mandiant/VM-Packages/wiki/Packages
+
+# --- static, first look at a file
+pestudio.vm
+die.vm
+pebear.vm
+explorersuite.vm
+exeinfope.vm
+floss.vm
+stringsifter.vm
+capa.vm
+hashmyfiles.vm
+exiftool.vm
+resourcehacker.vm
+yara.vm
+
+# --- disassemblers
+ghidra.vm
+idafree.vm
+cutter.vm
+
+# --- debuggers
+x64dbg.vm
+x64dbg.plugin.scyllahide.vm    # hide debugger from anti-debug checks
+x64dbg.plugin.dbgchild.vm      # auto-attach to spawned child processes
+
+# --- dynamic, behaviour
+sysinternals.vm
+systeminformer.vm
+procdot.vm
+regshot.vm
+apimonitor.vm
+pesieve.vm
+hollowshunter.vm
+
+# --- network
+wireshark.vm
+fakenet-ng.vm
+networkminer.vm
+internet_detector.vm           # changes wallpaper when the VM has internet
+
+# --- unpacking and extracting
+upx.vm
+7zip.vm                        # adds "unzip infected" to the context menu
+uniextract2.vm
+mal_unpack.vm
+
+# --- documents and scripts
+didier-stevens-suite.vm
+pdfstreamdumper.vm
+onenoteanalyzer.vm
+js-beautify.vm
+
+# --- .NET
+dnspyex.vm
+ilspy.vm
+de4dot-cex.vm
+
+# --- shellcode
+blobrunner.vm
+blobrunner64.vm
+scdbg.vm
+
+# --- general
+cyberchef.vm
+hxd.vm
+python3.vm
+libraries.python3.vm
+notepadplusplus.vm
+vscode.vm
+
+# --- optional, uncomment when needed
+# pma-labs.vm                  # LIVE malware samples from Practical Malware Analysis
+# goresym.vm                   # Go binaries
+# idr.vm                       # Delphi binaries
+# pycdc.vm                     # Python bytecode
+
+# --- never install, even if the defaults contain them
+-idapro.vm                     # needs a license
+-ida.plugin.*                  # need IDA Pro
+-visualstudio.vm               # huge and slow
+-pdbs.pdbresym.vm              # huge
+-mimikatz.vm
+-safetykatz.vm
+-rubeus.vm
+-sliver.vm
+-covenant.vm
+-metasploit.vm
