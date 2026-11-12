@@ -1,48 +1,34 @@
 # Day 2 — Setting up the environment
-**Tools we will be using**:
-- Hypervisor - VirtualBox or VMware
-- Windows 10/11 VM 64-bit preferable.
-- FLARE VM - Windows malware analysis distribution >>  Comes prepackaged with all the tools we need for malware analysis.
-- Kali Linux - attacker box and fake internet (INetSim) for the samples running on FLARE-VM.
-- CyberOps Workstation - the lab VM from Cisco's CyberOps Associate course.
-- Security Onion - network security monitoring, listens on the lab network and records everything.
 
+Before I can look at any sample I need a lab I can break without caring. This is what it turned into, and what went wrong on the way there.
 
-> Note: Ensure you disable Windows Update and Windows Defender on your analysis VM.
+## What's in it
 
+- VMware Workstation as hypervisor. VirtualBox works too, a few settings differ and I note them where it matters.
+- FLARE-VM, Mandiant's malware analysis setup on top of the Windows 11 development VM from Microsoft. This is where samples run.
+- Kali Linux as attacker box and fake internet, with dnsmasq for DNS and INetSim for everything else.
+- CyberOps Workstation, the lab VM from Cisco's CyberOps Associate course.
+- Security Onion for network security monitoring, listening on the lab segment and recording everything.
 
-**Security consideration**:
+## Rules I keep for myself
 
-- Keep your Hypervisor updated.
-- When executing malware the VM sits only on the isolated lab network (LAN segment or host-only), never on NAT or bridged.
-- Do not plug any USB devices into the VM.
-- Make sure you download compressed and password-protected samples to avoid accidental execution. 
-- Take snapshots!
-- Do not store any valuable data on your analysis VM.
-- Disable shared folders, before execution or analysis.
+- Keep the hypervisor updated. A VM escape is the one thing a snapshot doesn't undo.
+- When a sample runs, the VM is only on the isolated lab network. Never NAT, never bridged.
+- No USB devices in the VM, no shared folders, no valuable data on it.
+- Samples come in compressed and password protected, so nothing runs by accident on the way in.
+- Snapshots before every step that's hard to undo.
 
+## Windows 11 base
 
-
-**Windows 11 development environment**:
-
-- Download the Windows 11 development environment VM from Microsoft
-- Unzip the file and double-click on the .ova file
-- Customize to preferable appliance setting (Disk-size, etc)
-> Note: default is sufficient
-- Create the lab network, in my case a VMware LAN segment `malware-lab` (you will need it after the FLARE-VM installation)
-- Download the FLARE-VM on Win 11
-> Note: Take the snapshot of your VM and then install the FLARE-VM 
-
-> Note: Disable Windows firewall | services.msc > Search for windows update service and Windows Defender and disable these services so that it doesn't interfere with the FLARE-VM installation.
-
-- Unzip the file and use the installation guide to install the FLARE-VM machine.
-- After installation connect the machine to the `malware-lab` LAN segment, see the network plan below.
-
+- I took the Windows 11 development environment VM from Microsoft, unzipped it and opened the `.ova`. The default appliance settings are fine.
+- First snapshot before touching anything.
+- The VM stays on NAT for now, FLARE-VM downloads everything during the install. Only after that it moves to the `malware-lab` LAN segment, see the network plan further down.
+- Defender and Windows Update have to be off before FLARE-VM goes on, otherwise Defender eats half the tools. Windows Firewall I turned off by hand. The rest is in the script below.
 # Doing the prep in one go
 
 Clicking through the pre-installation list by hand every time I rebuild the VM got old fast, so I put it all in one script. It checks the basics, turns off Defender and Windows Update, waits for a snapshot and then pulls the official `install.ps1` from mandiant/flare-vm and runs it.
 
-I keep the script here in the writeup instead of in a separate folder. Inside the VM I copy the block below into `Install-FlareVM.ps1` and run it from an elevated Windows PowerShell. Not pwsh 7, and not PowerShell ISE either. ISE has no real console, so the FLARE-VM installer's prompts and the Chocolatey output never show up and it looks like the install hangs.
+I keep the script here in the writeup instead of in a separate folder. Inside the VM I copy the block below into `Install-FlareVM.ps1` and run it from an elevated Windows PowerShell. Not pwsh 7, and not PowerShell ISE either. My first run was in ISE and it sat there doing nothing visible for a long time. ISE has no real console, so the installer's prompts and the Chocolatey output never show up. That's my best explanation for the hang, I haven't confirmed it in `choco.summary.log` yet.
 
 ```powershell
 Set-ExecutionPolicy Bypass -Scope Process -Force
@@ -480,7 +466,7 @@ flowchart LR
   HO(("host-only<br/>my laptop"))
   subgraph lab["LAN segment malware-lab 10.10.10.0/24, no DHCP"]
     FLARE["FLARE-VM<br/>10.10.10.10"]
-    KALI["Kali + INetSim<br/>10.10.10.1"]
+    KALI["Kali, dnsmasq + INetSim<br/>10.10.10.1"]
     CYO["CyberOps<br/>10.10.10.20"]
     SO["Security Onion<br/>sniffing NIC, no IP"]
   end
@@ -506,7 +492,7 @@ A LAN segment has no DHCP, which I only found out when Kali's new `eth1` came up
 | Security Onion | management NIC on host-only | static, host-only range | - |
 | Security Onion | sniffing NIC on `malware-lab` | no IP | - |
 
-Kali being the gateway for the lab is the whole trick. It doesn't route anything onwards, so whatever the sample tries to reach ends up at INetSim.
+Kali being the gateway for the lab is the whole trick. It doesn't route anything onwards, so whatever name the sample looks up resolves to Kali and whatever it connects to ends up at INetSim.
 
 ## Kali Linux
 
@@ -543,13 +529,47 @@ The line numbers 69 and 207 are from my INetSim 1.3.2 config, check them with th
 sudo systemctl enable --now inetsim
 sleep 5
 sudo ss -tulpn | grep 10.10.10.1
+```
+
+- That list showed everything from 1 to 6667, except 53. In the foreground run there had been one line I waved away as a warning.
+
+```
+  * dns_53_tcp_udp - started (PID 3833)
+Attempt to start Net::DNS::Nameserver in a subprocess at /usr/share/perl5/INetSim/DNS.pm line 69.
+```
+
+It isn't a warning. INetSim forks every service into its own child process, and the newer `Net::DNS` on Kali refuses to run its nameserver in a subprocess. The DNS child dies right after the "started" line, `main.log` keeps saying `dns_53_tcp_udp started`, and every query gets `connection refused`. HTTP, SMTP and the rest are fine, so it's easy to miss. I only noticed when CyberOps could ping Kali but `nslookup` failed.
+
+- I didn't want to patch a Perl library that the next `apt full-upgrade` overwrites again, so DNS moved to dnsmasq. It answers every name with Kali's lab IP, which is all INetSim's DNS did anyway, and INetSim keeps everything else.
+
+```bash
+sudo apt install -y dnsmasq
+sudo sed -i 's/^start_service dns/#start_service dns/' /etc/inetsim/inetsim.conf
+
+sudo tee /etc/dnsmasq.d/malware-lab.conf >/dev/null <<'EOF'
+interface=eth1
+bind-interfaces
+listen-address=10.10.10.1
+except-interface=lo
+no-resolv
+no-hosts
+address=/#/10.10.10.1
+local=/#/
+log-queries
+log-facility=/var/log/dnsmasq-lab.log
+EOF
+
+sudo systemctl enable dnsmasq
+sudo systemctl restart dnsmasq inetsim
 dig @10.10.10.1 evil-c2.test +short     # any name resolves to 10.10.10.1
 curl -s http://10.10.10.1 | head -5     # INetSim's default page
 ```
 
-In the foreground it also prints `Attempt to start Net::DNS::Nameserver in a subprocess`. That's a warning from the newer Perl DNS library, the `dig` above still answers.
+`local=/#/` came after a wrong guess. Without it every IPv6 lookup came back `REFUSED`. The log said `config error is REFUSED (EDE: not ready)`, because `address=` only holds an IPv4 answer, so dnsmasq tried to forward the AAAA question to an upstream that doesn't exist. I first tried `filter-AAAA`, but that only filters answers coming back from upstream, so it changed nothing. `local=/#/` tells dnsmasq every name is local and nothing gets forwarded, so AAAA now gets an empty `NOERROR`. `bind-interfaces` and `except-interface=lo` keep dnsmasq off Kali's own resolver, so updates over NAT still work. Kali's packaging disables dnsmasq on install ("It looks like a network service, we disable it"), which is why the explicit `enable` is there. The lookups the sample makes now end up in `/var/log/dnsmasq-lab.log` instead of the INetSim log.
 
-- On FLARE-VM I move the adapter to the same LAN segment and set the IP, gateway and DNS from an elevated PowerShell.
+## FLARE-VM on the lab
+
+After the FLARE-VM install I move the adapter to the same LAN segment and set the IP, gateway and DNS from an elevated PowerShell.
 
 ```powershell
 Get-NetAdapter
@@ -561,14 +581,37 @@ Resolve-DnsName evil-c2.test
 Invoke-WebRequest http://evil-c2.test -UseBasicParsing | Select-Object StatusCode
 ```
 
-Now every lookup and connection from the sample lands on INetSim, and `/var/log/inetsim/service.log` shows what it asked for.
+Now every lookup lands on dnsmasq and every connection on INetSim. `/var/log/dnsmasq-lab.log` shows which names the sample asked for, `/var/log/inetsim/service.log` what it did next.
+
+FLARE-VM brings its own fake network, FakeNet-NG. I don't run it together with this setup. FakeNet would catch the traffic locally on the Windows box and Kali and Security Onion would see nothing.
 
 ## CyberOps Workstation
 
 - This is the VM from Cisco's CyberOps Associate course on NetAcad. The download sits behind a NetAcad login, linked from the lab "Install the CyberOps Workstation Virtual Machine".
 - Import the `.ova`. The lab sheet lists the login (`analyst` / `cyberops`).
 - It comes with Wireshark, tcpdump and the files the course labs expect. A lot of it overlaps with Kali, I keep it so the course exercises run exactly as written.
-- On the lab it sits on `malware-lab` with `10.10.10.20/24`, gateway and DNS `10.10.10.1`.
+- On the lab it sits on `malware-lab` with `10.10.10.20/24`, gateway and DNS `10.10.10.1`. The NIC is `ens32` and there is no NetworkManager, it's netplan on top of systemd-networkd. `/etc/systemd/network` doesn't even exist, netplan generates that config under `/run`. So the change goes into the netplan file, after a backup to go back to NAT later.
+
+```bash
+sudo cp /etc/netplan/01-netcfg.yaml /etc/netplan/01-netcfg.yaml.nat-backup
+sudo tee /etc/netplan/01-netcfg.yaml >/dev/null <<'EOF'
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    ens32:
+      dhcp4: no
+      addresses: [10.10.10.20/24]
+      routes:
+        - to: 0.0.0.0/0
+          via: 10.10.10.1
+      nameservers:
+        addresses: [10.10.10.1]
+EOF
+sudo netplan apply
+```
+
+The `routes` form worked here. On an older netplan `gateway4: 10.10.10.1` would be the fallback. `nslookup` and `curl http://evil-c2.test` from CyberOps both ended at Kali, so this box is done.
 
 ## Security Onion
 
@@ -579,6 +622,13 @@ Now every lookup and connection from the sample lands on INetSim, and `/var/log/
   - Sniffing NIC on `malware-lab` with no IP. In VirtualBox this needs **Promiscuous Mode** set to **Allow All**, otherwise it only sees broadcast traffic and none of the FLARE-VM to Kali traffic. VMware Workstation on a Windows host allows promiscuous mode by default.
 - During setup it asks which IP range may reach the web interface. I put the host-only subnet there, not the lab range.
 - After setup, detonate something on FLARE-VM and check that the alerts and Zeek logs show up in SOC. If nothing shows up, the sniffing NIC's segment and promiscuous mode are the first things to check.
+
+# Loose ends
+
+- FLARE-VM on the LAN segment isn't tested yet. Kali and CyberOps are, the FLARE commands above are what I'm going to run.
+- Security Onion isn't installed yet. Everything in its section is the plan, not something I've seen working.
+- The ISE hang. I still want to read `choco.summary.log` to see where it actually stopped.
+
 # Analysis tools on FLARE-VM
 
 What ends up on the box with my package list. The offensive tooling from the default set is gone on purpose.
@@ -597,6 +647,7 @@ What ends up on the box with my package list. The offensive tooling from the def
 | General | CyberChef, HxD, Python 3, Notepad++, VS Code |
 
 ---
+
 # References
 
 ■ [Get a Windows 11 development environment](https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/)
