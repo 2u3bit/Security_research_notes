@@ -1,6 +1,6 @@
 # Day 2 — Setting up the environment
 
-Before I can look at any sample I need a lab I can break without caring. This is what it turned into, and what went wrong on the way there.
+Before I can look at any sample I need a lab I can break without caring. These are the steps I used to build it.
 
 ## What's in it
 
@@ -8,7 +8,7 @@ Before I can look at any sample I need a lab I can break without caring. This is
 - FLARE-VM, Mandiant's malware analysis setup on top of the Windows 11 development VM from Microsoft. This is where samples run.
 - Kali Linux as attacker box and fake internet, with dnsmasq for DNS and INetSim for everything else.
 - CyberOps Workstation, the lab VM from Cisco's CyberOps Associate course.
-- Security Onion for network security monitoring, listening on the lab segment and recording everything.
+- Security Onion for network security monitoring, sniffing the lab segment.
 
 ## Rules I keep for myself
 
@@ -17,18 +17,132 @@ Before I can look at any sample I need a lab I can break without caring. This is
 - No USB devices in the VM, no shared folders, no valuable data on it.
 - Samples come in compressed and password protected, so nothing runs by accident on the way in.
 - Snapshots before every step that's hard to undo.
+- Shut VMs down from inside the guest, not with Power Off. A hard power off is how I lost a filesystem once.
+
+## Resources
+
+The host has 32 GB RAM and a Ryzen 7 with 16 threads. This split leaves about 12 GB for Windows itself.
+
+| VM | RAM | vCPU |
+| :-- | :-- | :-- |
+| Security Onion | 8 GB | 4 |
+| FLARE-VM | 6 GB | 4 |
+| Kali | 4 GB | 2 |
+| CyberOps | 2 GB | 1 |
+
+Security Onion really needs the 8 GB. With 4 GB Logstash gets killed and nothing reaches Kibana.
+
+# The lab network
+
+The lab runs on a VMware **LAN segment** called `malware-lab`. A LAN segment is a virtual switch that only the VMs are plugged into, my own machine isn't on it. It has no DHCP, so every box gets a static IP. Kali is the gateway and DNS server for the segment but doesn't route anything onwards, so every name a sample looks up resolves to Kali and every connection ends up at INetSim.
+
+```mermaid
+flowchart LR
+  NAT(("VMware NAT<br/>internet"))
+  subgraph lab["LAN segment malware-lab 10.10.10.0/24, no DHCP"]
+    FLARE["FLARE-VM<br/>10.10.10.10"]
+    KALI["Kali, dnsmasq + INetSim<br/>10.10.10.1"]
+    CYO["CyberOps<br/>10.10.10.20"]
+    SO["Security Onion<br/>sniffing NIC, no IP"]
+  end
+  KALI -- "eth0" --- NAT
+  SO -- "management NIC 192.168.37.50" --- NAT
+  FLARE -- "DNS / HTTP to fake C2" --> KALI
+  CYO --> KALI
+  SO -. "sees all traffic" .-> lab
+```
+
+| VM | Adapter | IP | Gateway / DNS |
+| :-- | :-- | :-- | :-- |
+| Kali | eth0 on NAT | DHCP | VMware NAT |
+| Kali | eth1 on `malware-lab` | 10.10.10.1/24 | none |
+| FLARE-VM | Ethernet0 on `malware-lab` | 10.10.10.10/24 | 10.10.10.1 |
+| CyberOps | ens32 on `malware-lab` | 10.10.10.20/24 | 10.10.10.1 |
+| Security Onion | eth1 on NAT (management) | 192.168.37.50/24 | 192.168.37.2 |
+| Security Onion | eth0 on `malware-lab` (sniffing) | no IP | - |
+
+Every VM gets installed and updated while it still has NAT, then a snapshot, then it moves to `malware-lab`. Only Kali and the Security Onion management NIC keep NAT. The Security Onion sniffing NIC has no IP, so it can see the lab but never talk to it.
+
+In VMware the LAN segment is created from any VM's network adapter settings, under **LAN segment → LAN Segments… → Add**.
+
+# Kali Linux
+
+1. Download the prebuilt VMware image from kali.org and open it. Default login is `kali` / `kali`, change the password first.
+2. Update and install the fake internet while the VM is still only on NAT.
+
+```bash
+sudo apt update && sudo apt full-upgrade -y
+sudo apt install -y inetsim dnsmasq
+```
+
+3. Add a second network adapter in VMware on the `malware-lab` LAN segment. It shows up as `eth1` without an IP. `never-default` keeps the default route on `eth0`, so Kali still updates over NAT and only lab traffic uses `eth1`.
+
+```bash
+sudo nmcli con add type ethernet ifname eth1 con-name malware-lab \
+  ipv4.method manual ipv4.addresses 10.10.10.1/24 \
+  ipv4.never-default yes ipv6.method disabled
+sudo nmcli con up malware-lab
+```
+
+4. Point INetSim at the lab IP and switch off its own DNS service. The DNS service doesn't work with the `Net::DNS` version on current Kali, so dnsmasq takes over DNS. Both config lines are commented out by default, the grep shows on which line they sit (69 and 207 in INetSim 1.3.2).
+
+```bash
+grep -nE 'service_bind_address|dns_default_ip' /etc/inetsim/inetsim.conf
+sudo sed -i "69s/.*/service_bind_address 10.10.10.1/; 207s/.*/dns_default_ip 10.10.10.1/" /etc/inetsim/inetsim.conf
+sudo sed -i 's/^start_service dns/#start_service dns/' /etc/inetsim/inetsim.conf
+```
+
+5. Configure dnsmasq to answer every name with Kali's lab IP, only on `eth1`. `local=/#/` keeps it from trying to forward anything, so IPv6 lookups get an empty answer instead of `REFUSED`. `bind-interfaces` and `except-interface=lo` keep it away from Kali's own resolver.
+
+```bash
+sudo tee /etc/dnsmasq.d/malware-lab.conf >/dev/null <<'EOF'
+interface=eth1
+bind-interfaces
+listen-address=10.10.10.1
+except-interface=lo
+no-resolv
+no-hosts
+address=/#/10.10.10.1
+local=/#/
+log-queries
+log-facility=/var/log/dnsmasq-lab.log
+EOF
+```
+
+6. Enable both services. Kali installs them disabled, so without `enable` they're gone after a reboot. INetSim needs a few seconds to fork all its services before `ss` shows them.
+
+```bash
+sudo systemctl enable --now dnsmasq inetsim
+sleep 5
+sudo ss -tulpn | grep 10.10.10.1
+dig @10.10.10.1 evil-c2.test +short     # any name resolves to 10.10.10.1
+curl -s http://10.10.10.1 | head -5     # INetSim's default page
+```
+
+7. Snapshot.
+
+Lookups a sample makes end up in `/var/log/dnsmasq-lab.log`, what it does next in `/var/log/inetsim/service.log`.
+
+# FLARE-VM
 
 ## Windows 11 base
 
-- I took the Windows 11 development environment VM from Microsoft, unzipped it and opened the `.ova`. The default appliance settings are fine.
-- First snapshot before touching anything.
-- The VM stays on NAT for now, FLARE-VM downloads everything during the install. Only after that it moves to the `malware-lab` LAN segment, see the network plan further down.
-- Defender and Windows Update have to be off before FLARE-VM goes on, otherwise Defender eats half the tools. Windows Firewall I turned off by hand. The rest is in the script below.
-# Doing the prep in one go
+1. Download the Windows 11 development environment VM from Microsoft, unzip it and open the `.ova`. The default appliance settings are fine.
+2. Snapshot before touching anything.
+3. Leave the adapter on NAT. FLARE-VM downloads everything during the install.
+4. Turn off Windows Firewall by hand. Defender and Windows Update are handled by the script below.
 
-Clicking through the pre-installation list by hand every time I rebuild the VM got old fast, so I put it all in one script. It checks the basics, turns off Defender and Windows Update, waits for a snapshot and then pulls the official `install.ps1` from mandiant/flare-vm and runs it.
+## Running the install script
 
-I keep the script here in the writeup instead of in a separate folder. Inside the VM I copy the block below into `Install-FlareVM.ps1` and run it from an elevated Windows PowerShell. Not pwsh 7, and not PowerShell ISE either. My first run was in ISE and it sat there doing nothing visible for a long time. ISE has no real console, so the installer's prompts and the Chocolatey output never show up. That's my best explanation for the hang, I haven't confirmed it in `choco.summary.log` yet.
+The script checks the basics, waits until I switch off Tamper Protection, turns off Defender and Windows Update through policy, reboots and resumes if Defender is still active, pauses for a snapshot and then runs the official `install.ps1` from mandiant/flare-vm with my package list.
+
+- It needs Windows PowerShell 5.1 as administrator. Not pwsh 7, and not PowerShell ISE, which doesn't show the installer's prompts.
+- It needs a username without spaces and about 60 GB free disk. The script checks both.
+- Tamper Protection can't be switched off by a script, that's by design. The script opens Windows Security and waits until it's off.
+- It refuses to run on something that doesn't look like a VM. `-Force` overrides that if detection misses a hypervisor.
+- FLARE-VM's own installer may still warn that Tamper Protection is on. If `Get-MpComputerStatus` shows `IsTamperProtected` as `False`, answer Y.
+
+Copy the block from "The script" below into `Install-FlareVM.ps1` inside the VM and run it from an elevated Windows PowerShell.
 
 ```powershell
 Set-ExecutionPolicy Bypass -Scope Process -Force
@@ -37,22 +151,13 @@ Set-ExecutionPolicy Bypass -Scope Process -Force
 .\Install-FlareVM.ps1 -DefaultPackages  # plain FLARE-VM default set
 ```
 
-A few things I ran into while writing it.
+The install takes a long time and reboots several times on its own.
 
-- **Tamper Protection can't be scripted.** That's on purpose. If a script could switch it off, so could malware. The script opens Windows Security and just waits until I flip it myself.
-- **The GPO keys don't always bite right away.** Real-time protection often stays on until a reboot. So the script checks, and if Defender is still running it sets a RunOnce key, reboots and picks up where it left off after logon.
-- **It refuses to run on a real machine.** It looks at the manufacturer, model and BIOS strings for VMware, VirtualBox, Hyper-V, QEMU and so on. Turning off AV on my actual laptop by accident is exactly the mistake I don't want to make. `-Force` overrides it if detection misses a hypervisor.
-- **The snapshot step stays manual.** The guest can't snapshot itself, so the script pauses right before the FLARE-VM install, with Defender and updates already off. I still take one more snapshot of the clean Windows install before running anything.
-- **FLARE-VM wants a username without spaces**, about 60 GB free and Windows PowerShell 5.1. The script checks all three up front so it doesn't fail an hour into the install.
-- **FLARE-VM's own Tamper check gave me a false warning.** It reads a registry value that still says "on" once Defender is disabled by policy. `Get-MpComputerStatus` showed everything off, so I answered Y and it carried on.
-
-Windows Update stays off afterwards. If I ever want to patch the VM I have to remove the `NoAutoUpdate` policy under `HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU` again.
+Windows Update stays off afterwards. To patch the VM again, remove the `NoAutoUpdate` policy under `HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU`.
 
 ## Picking the packages
 
-The FLARE-VM package list is long and more than half of it is red team tooling (C2, credential access, lateral movement). None of that belongs on an analysis box, and Kali already covers the offensive side. So instead of clicking through the GUI the script downloads the official `config.xml`, drops everything marked with `-` in the `$Packages` list and adds the rest. That keeps whatever settings Mandiant puts in the default config, even when they change it.
-
-The list sits inside the script, so there is only one file to copy into the VM. `-PackageList somefile.txt` still works if I want to try a different set without editing the script.
+More than half of the default FLARE-VM package list is red team tooling (C2, credential access, lateral movement). None of that belongs on an analysis box, and Kali already covers the offensive side. The script downloads the official `config.xml`, drops everything marked with `-` in the `$Packages` list and adds the rest, so Mandiant's default settings stay intact. `-PackageList somefile.txt` loads a different list without editing the script.
 
 ## The script
 
@@ -454,143 +559,36 @@ if (-not $Resume) {
 Install-Flare
 ```
 
-# Adding Kali, CyberOps and Security Onion
-
-FLARE-VM only shows what happens inside the Windows box. To see the network side as well I added three more VMs.
-
-I started out planning a host-only network for the lab, but ended up on a VMware **LAN segment** called `malware-lab`. The difference matters. On host-only my own laptop sits on the same network as the malware. A LAN segment is a virtual switch that only the VMs are plugged into, the host isn't on it at all.
-
-```mermaid
-flowchart LR
-  NAT(("NAT<br/>internet"))
-  HO(("host-only<br/>my laptop"))
-  subgraph lab["LAN segment malware-lab 10.10.10.0/24, no DHCP"]
-    FLARE["FLARE-VM<br/>10.10.10.10"]
-    KALI["Kali, dnsmasq + INetSim<br/>10.10.10.1"]
-    CYO["CyberOps<br/>10.10.10.20"]
-    SO["Security Onion<br/>sniffing NIC, no IP"]
-  end
-  KALI -- "eth0" --- NAT
-  SO -- "management NIC, web UI" --- HO
-  FLARE -- "DNS / HTTP to fake C2" --> KALI
-  CYO --> KALI
-  SO -. "sees all traffic" .-> lab
-```
-
-The order that worked for me is install and update each VM while it still has NAT, take a snapshot, then move it to the LAN segment. Only Kali keeps a NAT adapter next to the lab one, so I can still update it.
-
-## Network plan
-
-A LAN segment has no DHCP, which I only found out when Kali's new `eth1` came up without an address. So every box gets a static IP. I took `10.10.10.0/24` because that's the example range already sitting in `inetsim.conf`.
-
-| VM | Adapter | IP | Gateway / DNS |
-| :-- | :-- | :-- | :-- |
-| Kali | eth0 on NAT | DHCP (192.168.37.x) | VMware NAT |
-| Kali | eth1 on `malware-lab` | 10.10.10.1/24 | none |
-| FLARE-VM | Ethernet0 on `malware-lab` | 10.10.10.10/24 | 10.10.10.1 |
-| CyberOps | on `malware-lab` | 10.10.10.20/24 | 10.10.10.1 |
-| Security Onion | management NIC on host-only | static, host-only range | - |
-| Security Onion | sniffing NIC on `malware-lab` | no IP | - |
-
-Kali being the gateway for the lab is the whole trick. It doesn't route anything onwards, so whatever name the sample looks up resolves to Kali and whatever it connects to ends up at INetSim.
-
-## Kali Linux
-
-- I use the prebuilt VMware image from kali.org instead of the installer ISO. It saves the whole install. Default login is `kali` / `kali`, change it first.
-- Update while it is still only on NAT.
-
-```bash
-sudo apt update && sudo apt full-upgrade -y
-sudo apt install -y inetsim
-```
-
-- Then add a second network adapter in VMware on the `malware-lab` LAN segment. It shows up as `eth1` with no IP, so I give it one with NetworkManager. `never-default` keeps the default route on `eth0`, so internet still goes out through NAT and only lab traffic uses `eth1`.
-
-```bash
-sudo nmcli con add type ethernet ifname eth1 con-name malware-lab \
-  ipv4.method manual ipv4.addresses 10.10.10.1/24 \
-  ipv4.never-default yes ipv6.method disabled
-sudo nmcli con up malware-lab
-ip -br a
-```
-
-- INetSim fakes DNS, HTTP(S), SMTP, FTP and more, so a sample on FLARE-VM thinks it reached its C2 and keeps going instead of dying quietly. In `/etc/inetsim/inetsim.conf` the two lines I need, `service_bind_address` and `dns_default_ip`, are commented out by default with `10.10.10.1` as the example value. My first grep for them came back empty because I was looking for lines that start with the name and both start with `#`.
-
-```bash
-grep -nE 'service_bind_address|dns_default_ip' /etc/inetsim/inetsim.conf
-sudo sed -i "69s/.*/service_bind_address 10.10.10.1/; 207s/.*/dns_default_ip 10.10.10.1/" /etc/inetsim/inetsim.conf
-```
-
-The line numbers 69 and 207 are from my INetSim 1.3.2 config, check them with the grep first.
-
-- Then I lost some time. After a restart `ss` showed nothing listening, so I assumed INetSim was broken. I went looking for an `ENABLED=0` in `/etc/default/inetsim` that isn't there anymore. Running `sudo inetsim` in the foreground showed every service starting fine on `10.10.10.1`. Two things were going on. The unit was `disabled`, so it wouldn't come back after a reboot. And `systemctl restart` returns before INetSim has forked all its services, so my `ss` simply looked too early.
-
-```bash
-sudo systemctl enable --now inetsim
-sleep 5
-sudo ss -tulpn | grep 10.10.10.1
-```
-
-- That list showed everything from 1 to 6667, except 53. In the foreground run there had been one line I waved away as a warning.
-
-```
-  * dns_53_tcp_udp - started (PID 3833)
-Attempt to start Net::DNS::Nameserver in a subprocess at /usr/share/perl5/INetSim/DNS.pm line 69.
-```
-
-It isn't a warning. INetSim forks every service into its own child process, and the newer `Net::DNS` on Kali refuses to run its nameserver in a subprocess. The DNS child dies right after the "started" line, `main.log` keeps saying `dns_53_tcp_udp started`, and every query gets `connection refused`. HTTP, SMTP and the rest are fine, so it's easy to miss. I only noticed when CyberOps could ping Kali but `nslookup` failed.
-
-- I didn't want to patch a Perl library that the next `apt full-upgrade` overwrites again, so DNS moved to dnsmasq. It answers every name with Kali's lab IP, which is all INetSim's DNS did anyway, and INetSim keeps everything else.
-
-```bash
-sudo apt install -y dnsmasq
-sudo sed -i 's/^start_service dns/#start_service dns/' /etc/inetsim/inetsim.conf
-
-sudo tee /etc/dnsmasq.d/malware-lab.conf >/dev/null <<'EOF'
-interface=eth1
-bind-interfaces
-listen-address=10.10.10.1
-except-interface=lo
-no-resolv
-no-hosts
-address=/#/10.10.10.1
-local=/#/
-log-queries
-log-facility=/var/log/dnsmasq-lab.log
-EOF
-
-sudo systemctl enable dnsmasq
-sudo systemctl restart dnsmasq inetsim
-dig @10.10.10.1 evil-c2.test +short     # any name resolves to 10.10.10.1
-curl -s http://10.10.10.1 | head -5     # INetSim's default page
-```
-
-`local=/#/` came after a wrong guess. Without it every IPv6 lookup came back `REFUSED`. The log said `config error is REFUSED (EDE: not ready)`, because `address=` only holds an IPv4 answer, so dnsmasq tried to forward the AAAA question to an upstream that doesn't exist. I first tried `filter-AAAA`, but that only filters answers coming back from upstream, so it changed nothing. `local=/#/` tells dnsmasq every name is local and nothing gets forwarded, so AAAA now gets an empty `NOERROR`. `bind-interfaces` and `except-interface=lo` keep dnsmasq off Kali's own resolver, so updates over NAT still work. Kali's packaging disables dnsmasq on install ("It looks like a network service, we disable it"), which is why the explicit `enable` is there. The lookups the sample makes now end up in `/var/log/dnsmasq-lab.log` instead of the INetSim log.
-
 ## FLARE-VM on the lab
 
-After the FLARE-VM install I move the adapter to the same LAN segment and set the IP, gateway and DNS from an elevated PowerShell.
+1. Snapshot of the finished install while it's still on NAT.
+2. In VMware move the adapter to the `malware-lab` LAN segment.
+3. Set the IP, gateway and DNS from an elevated PowerShell. `Get-NetAdapter` shows the adapter name.
 
 ```powershell
 Get-NetAdapter
 New-NetIPAddress -InterfaceAlias "Ethernet0" -IPAddress 10.10.10.10 -PrefixLength 24 -DefaultGateway 10.10.10.1
 Set-DnsClientServerAddress -InterfaceAlias "Ethernet0" -ServerAddresses 10.10.10.1
+```
 
+4. Check that everything lands on Kali.
+
+```powershell
 ping 10.10.10.1
 Resolve-DnsName evil-c2.test
 Invoke-WebRequest http://evil-c2.test -UseBasicParsing | Select-Object StatusCode
 ```
 
-Now every lookup lands on dnsmasq and every connection on INetSim. `/var/log/dnsmasq-lab.log` shows which names the sample asked for, `/var/log/inetsim/service.log` what it did next.
+5. Snapshot.
 
-FLARE-VM brings its own fake network, FakeNet-NG. I don't run it together with this setup. FakeNet would catch the traffic locally on the Windows box and Kali and Security Onion would see nothing.
+FLARE-VM also ships FakeNet-NG. I don't run it in this setup, it would catch the traffic locally on the Windows box and Kali and Security Onion would see nothing.
 
-## CyberOps Workstation
+# CyberOps Workstation
 
-- This is the VM from Cisco's CyberOps Associate course on NetAcad. The download sits behind a NetAcad login, linked from the lab "Install the CyberOps Workstation Virtual Machine".
-- Import the `.ova`. The lab sheet lists the login (`analyst` / `cyberops`).
-- It comes with Wireshark, tcpdump and the files the course labs expect. A lot of it overlaps with Kali, I keep it so the course exercises run exactly as written.
-- On the lab it sits on `malware-lab` with `10.10.10.20/24`, gateway and DNS `10.10.10.1`. The NIC is `ens32` and there is no NetworkManager, it's netplan on top of systemd-networkd. `/etc/systemd/network` doesn't even exist, netplan generates that config under `/run`. So the change goes into the netplan file, after a backup to go back to NAT later.
+1. Download the VM from Cisco's CyberOps Associate course on NetAcad. It's linked from the lab "Install the CyberOps Workstation Virtual Machine" and sits behind a NetAcad login.
+2. Import the `.ova` in VMware with **File → Open**. If VMware complains about the format, **Retry** imports it anyway. Login is `analyst` / `cyberops`.
+3. Snapshot while it's still on NAT.
+4. In VMware move the adapter to `malware-lab`. The NIC is `ens32` and networking runs through netplan on top of systemd-networkd, so the static IP goes into the netplan file. The backup is for going back to NAT later.
 
 ```bash
 sudo cp /etc/netplan/01-netcfg.yaml /etc/netplan/01-netcfg.yaml.nat-backup
@@ -611,23 +609,121 @@ EOF
 sudo netplan apply
 ```
 
-The `routes` form worked here. On an older netplan `gateway4: 10.10.10.1` would be the fallback. `nslookup` and `curl http://evil-c2.test` from CyberOps both ended at Kali, so this box is done.
+5. Check that DNS and HTTP end up at Kali.
 
-## Security Onion
+```bash
+ip -br a
+nslookup evil-c2.test 10.10.10.1
+curl -s http://evil-c2.test | head -5
+```
 
-- Free NSM platform with Suricata, Zeek, full packet capture and the Elastic stack in one. Download the ISO from securityonion.net and verify the signature, the docs explain how.
-- This is by far the heaviest VM in the lab. Check the hardware requirements in the docs before choosing an install type. `IMPORT` is the light option for loading pcaps afterwards, `EVAL` or `STANDALONE` when it has to sniff live.
-- It needs two network adapters.
-  - Management NIC, NAT during install (it pulls updates), then host-only. This one can't go on the LAN segment, because my laptop isn't on that segment and I'd lose the web UI.
-  - Sniffing NIC on `malware-lab` with no IP. In VirtualBox this needs **Promiscuous Mode** set to **Allow All**, otherwise it only sees broadcast traffic and none of the FLARE-VM to Kali traffic. VMware Workstation on a Windows host allows promiscuous mode by default.
-- During setup it asks which IP range may reach the web interface. I put the host-only subnet there, not the lab range.
-- After setup, detonate something on FLARE-VM and check that the alerts and Zeek logs show up in SOC. If nothing shows up, the sniffing NIC's segment and promiscuous mode are the first things to check.
+6. Snapshot.
 
-# Loose ends
+Back to NAT is `sudo cp /etc/netplan/01-netcfg.yaml.nat-backup /etc/netplan/01-netcfg.yaml`, `sudo netplan apply` and the adapter back on NAT in VMware.
 
-- FLARE-VM on the LAN segment isn't tested yet. Kali and CyberOps are, the FLARE commands above are what I'm going to run.
-- Security Onion isn't installed yet. Everything in its section is the plan, not something I've seen working.
-- The ISE hang. I still want to read `choco.summary.log` to see where it actually stopped.
+# Security Onion
+
+I use the Security Onion VM from the CyberOps course. It's Security Onion 16.04 with Sguil, Snort, Zeek, netsniff-ng and the Elastic stack, set up for importing pcaps. These steps turn it into a live sensor on `malware-lab`. There's no copy and paste into this VM, so every command gets typed.
+
+## VM settings
+
+1. In VMware give it **8 GB RAM** and **4 vCPU**.
+2. Find out which adapter is the sniffing NIC. Inside the VM
+
+```bash
+ip link show eth0 | grep ether
+```
+
+3. In **VM Settings → Network Adapter → Advanced**, the adapter with that MAC goes on the `malware-lab` LAN segment. The other adapter (`eth1`) stays on NAT, that's the management NIC.
+4. Snapshot.
+
+In VirtualBox the sniffing adapter also needs **Promiscuous Mode** set to **Allow All**. VMware Workstation on a Windows host allows it by default.
+
+## Clearing the old sensors
+
+The Cisco VM comes with sensor directories for `seconion-eth0` and `seconion-eth1`. Setup refuses to create a sensor whose directory already exists, so they move out of the way first.
+
+```bash
+sudo mkdir -p /root/nsm-old/etc /root/nsm-old/data
+sudo mv /etc/nsm/seconion-eth0 /etc/nsm/seconion-eth1 /root/nsm-old/etc/
+sudo mv /nsm/sensor_data/seconion-eth0 /nsm/sensor_data/seconion-eth1 /root/nsm-old/data/
+```
+
+## Setup, part 1 network
+
+```bash
+sudo sosetup
+```
+
+| Question | Answer |
+| :-- | :-- |
+| Continue | Yes, Continue! |
+| Skip network configuration | No, I need to re-configure /etc/network/interfaces |
+| Management interface | eth1 |
+| DHCP or static | static |
+| IP address | 192.168.37.50 |
+| Subnet mask | 255.255.255.0 |
+| Gateway | 192.168.37.2 |
+| DNS | 192.168.37.2 |
+| Local domain | lab |
+| Configure sniffing interfaces | Yes, configure sniffing interfaces |
+| Sniffing interfaces | eth0 only |
+
+Confirm the summary and let it reboot. The IP sits below VMware's NAT DHCP range (check it under **Edit → Virtual Network Editor → VMnet8 → DHCP Settings**). After the reboot
+
+```bash
+ip -br a                  # eth1 192.168.37.50, eth0 UP without IP
+ping -c 2 192.168.37.2
+```
+
+## Setup, part 2 sensor
+
+```bash
+sudo sosetup
+```
+
+| Question | Answer |
+| :-- | :-- |
+| Continue | Yes, Continue! |
+| Skip network configuration | Yes, skip network configuration! |
+| Evaluation or Production | Evaluation Mode |
+| Monitor interface | eth0 |
+| Username and password | for Sguil, Squert and Kibana |
+
+## Snort rules
+
+The rule update during setup pulls rules that use `byte_math` in a way the Snort on this VM doesn't support, and Snort quits on startup. These four get disabled, then the rules are rebuilt.
+
+```bash
+printf '1:2060259\n1:2060260\n1:2060265\n1:2060266\n' | sudo tee -a /etc/nsm/pulledpork/disablesid.conf
+sudo rule-update
+sudo nsm_sensor_ps-restart --only-snort-alert
+```
+
+## Check
+
+```bash
+sudo so-status
+```
+
+Everything under `seconion-eth0` (netsniff-ng, pcap_agent, snort_agent, snort, barnyard2), Zeek and the Elastic stack should be `OK`. Logstash needs up to ten minutes after a boot before it leaves `WARN`.
+
+To see the lab traffic, run on CyberOps
+
+```bash
+nslookup evil-c2.test 10.10.10.1
+curl -s http://evil-c2.test >/dev/null
+```
+
+and on Security Onion
+
+```bash
+sudo tcpdump -i eth0 -n -c 10 host 10.10.10.1
+```
+
+Kibana, Squert and Sguil open from Firefox inside the VM at `https://localhost`. I keep the web interfaces inside the VM, so the firewall stays closed to the host. Search for `evil-c2.test` with the time range on the last hour to find the Zeek DNS and HTTP logs.
+
+Once everything is OK, a last snapshot.
 
 # Analysis tools on FLARE-VM
 
@@ -662,4 +758,5 @@ What ends up on the box with my package list. The offensive tooling from the def
 <br>
 ■ [Cisco NetAcad CyberOps Associate](https://www.netacad.com/courses/cyberops-associate)
 <br>
-■ [Security Onion documentation](https://docs.securityonion.net/)
+■ [Security Onion 16.04 documentation (legacy wiki)](https://github.com/Security-Onion-Solutions/security-onion/wiki)<br>
+■ [dnsmasq](https://thekelleys.org.uk/dnsmasq/doc.html)
