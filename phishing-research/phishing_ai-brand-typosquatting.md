@@ -8,33 +8,6 @@ So I measured it myself. How many lookalikes of AI brands exist today, who owns 
 
 Everything ran on Kali on Sunday 15 November 2026, between 15.26 and 16.15 Dutch time. Nothing was opened in a browser. Pages were fetched as text with `curl`, no JavaScript was executed.
 
-## Getting Kali online first
-
-The first `apt install` failed with `Temporary failure resolving 'http.kali.org'`. Kali swaps its NIC names between boots, and this time the lab card had become `eth1`. NetworkManager was trying DHCP on the lab segment, which has no DHCP, and the NAT card had no connection at all.
-
-The link local address gave it away. `fe80::20c:29ff:fe47:956d` is built from MAC `00:0c:29:47:95:6d`, which is the lab card.
-
-```bash
-ip -br a
-# eth0  UP
-# eth1  UP  fe80::20c:29ff:fe47:956d/64
-nmcli dev status
-# eth1  connecting (getting IP configuration)  Wired connection 1
-# eth0  disconnected
-```
-
-I bound both connections to their MAC address only and dropped the binding to the interface name, so the name Linux picks at boot doesn't matter anymore.
-
-```bash
-NATMAC=$(cat /sys/class/net/eth0/address); echo $NATMAC
-sudo nmcli con mod malware-lab connection.interface-name ""
-sudo nmcli con mod "Wired connection 1" connection.interface-name "" 802-3-ethernet.mac-address $NATMAC
-sudo nmcli con up malware-lab
-sudo nmcli con up "Wired connection 1"
-```
-
-After that the NAT card had `192.168.37.137` with the default route, the lab card had `10.10.10.1` without one, and `ping 1.1.1.1` worked.
-
 ## The tool
 
 `dnstwist` takes a domain and generates thousands of variants. A letter dropped, two letters swapped, a neighbouring key, an extra character, a look-alike Unicode letter. For each variant it does a DNS lookup and `--registered` keeps only the ones that exist.
