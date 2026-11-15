@@ -20,6 +20,7 @@ My own research log. Files are named `tag_topic.md`, so a search on a tag or a k
 | 15 | [malware_pcap-eight-seconds-loader](malware-analysis-lab/malware_pcap-eight-seconds-loader.md) |
 | 16 | [malware_shellcode-script-interpreter](malware-analysis-lab/malware_shellcode-script-interpreter.md) |
 | 17 | [malware_persistence-run-key-and-startup-folder](malware-analysis-lab/malware_persistence-run-key-and-startup-folder.md) |
+| 19 | [malware_ai-lure-inno-setup-netsupport](malware-analysis-lab/malware_ai-lure-inno-setup-netsupport.md) |
 
 ## general-research
 
